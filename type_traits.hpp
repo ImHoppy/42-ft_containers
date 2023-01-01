@@ -84,17 +84,9 @@ namespace ft
 		struct is_integral_helper<unsigned long long>
 		: public true_type { };
 
-	// template<typename T>
-	// typedef typename remove_cv<T>::type remove_cv_type;
-	template<typename T>
-		struct remove_cv_type
-		: public remove_cv<T>::type 
-		{};
-		// { typedef typename remove_cv<T>::type type; };
-
 	template<typename T>
 	struct is_integral
-	: public is_integral_helper<remove_cv_type<T> >::type
+	: public is_integral_helper<typename remove_cv<T>::type >::type
 	{ };
 
 
