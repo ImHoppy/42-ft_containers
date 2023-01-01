@@ -3,10 +3,10 @@
 namespace ft
 {
 
-	template< class T > struct remove_cv                   { typedef T type; };
-	template< class T > struct remove_cv<const T>          { typedef T type; };
-	template< class T > struct remove_cv<volatile T>       { typedef T type; };
-	template< class T > struct remove_cv<const volatile T> { typedef T type; };
+	template< class T > struct remove_cv					{ typedef T type; };
+	template< class T > struct remove_cv<const T>			{ typedef T type; };
+	template< class T > struct remove_cv<volatile T>		{ typedef T type; };
+	template< class T > struct remove_cv<const volatile T>	{ typedef T type; };
 
 	template< typename T, T V >
 	struct integral_constant
@@ -61,12 +61,7 @@ namespace ft
 	#include <iostream>
 	template<>
 		struct is_integral_helper<int>
-		: public true_type {
-					is_integral_helper() {
-			std::cout <<"is_integralefgggggggggggggggggg<int>\n";
-		}
-
-	};
+		: public true_type { };
 	
 	template<>
 		struct is_integral_helper<unsigned int>
@@ -88,17 +83,19 @@ namespace ft
 		struct is_integral_helper<unsigned long long>
 		: public true_type { };
 
+	template<typename T>
+	using remove_cv_type = typename remove_cv<T>::type;
 
-	template<typename _Tp>
+	template<typename T>
 	struct is_integral
-	: public is_integral_helper<remove_cv<_Tp>::type>::type
+	: public is_integral_helper<remove_cv_type<T>>::type
 	{ };
 
 	#include <iostream>
 
 	// is_integral_v
 	template< class T >
-	inline constexpr bool is_integral_v = is_integral<T>::value;
+	inline bool is_integral_v = is_integral<T>::value;
 
 
 } // namespace ft
