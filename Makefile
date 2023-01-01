@@ -1,6 +1,6 @@
 NAME		= ft_container_tester
 
-SOURCES		= srcs/main.cpp
+SOURCES		= srcs/main.cpp srcs/type_traits.cpp
 OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 

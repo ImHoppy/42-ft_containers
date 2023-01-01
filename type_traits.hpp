@@ -60,7 +60,6 @@ namespace ft
 		struct is_integral_helper<unsigned short>
 		: public true_type { };
 	
-	#include <iostream>
 	template<>
 		struct is_integral_helper<int>
 		: public true_type { };
