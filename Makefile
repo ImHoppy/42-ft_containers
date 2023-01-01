@@ -5,8 +5,8 @@ OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 
 CXX			= c++
-# CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I. -std=c++98 
-		CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I. -std=c++20 -g3
+CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I. -std=c++98 
+# CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I. -std=c++20 -g3
 
 
 $(NAME): $(OBJECTS)

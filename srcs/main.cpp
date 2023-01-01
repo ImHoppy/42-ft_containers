@@ -1,15 +1,11 @@
 #include <iostream>
 #include <iomanip>
-#include <type_traits>
+// #include <type_traits>
 #include "type_traits.hpp"
 
 class A {};
  
-struct B { int x:4{2}; };
-using BF = decltype(B::x); // bit-field's type
- 
-enum E : int {};
- 
+#define static_assert(...) assertm(__VA_ARGS__, #__VA_ARGS__)
 template <class T>
 T f(T i)
 {
@@ -24,19 +20,17 @@ int main()
 {
     std::cout << std::boolalpha;
  
-    ft::is_integral<int>();
+    SHOW( ft::is_integral<float>::value );
     SHOW( ft::is_integral<A>::value );
-    SHOW( ft::is_integral_v<E> );
-    SHOW( ft::is_integral_v<float> );
-    SHOW( ft::is_integral_v<double> );
-    SHOW( ft::is_integral_v<int*> );
-    SHOW( ft::is_integral_v<unsigned int> );
-    SHOW( ft::is_integral_v<signed int> );
-    SHOW( ft::is_integral_v<const int> );
-    SHOW( ft::is_integral_v<long> );
-    SHOW( ft::is_integral_v<long long> );
-    SHOW( ft::is_integral_v<bool> );
-    SHOW( ft::is_integral_v<char> );
-    SHOW( ft::is_integral_v<BF> );
+    SHOW( ft::is_integral<int>::value );
+    SHOW( ft::is_integral<double>::value );
+    SHOW( ft::is_integral<int*>::value );
+    SHOW( ft::is_integral<unsigned int>::value );
+    SHOW( ft::is_integral<signed int>::value );
+    SHOW( ft::is_integral<const int>::value );
+    SHOW( ft::is_integral<long>::value );
+    SHOW( ft::is_integral<long long>::value );
+    SHOW( ft::is_integral<bool>::value );
+    SHOW( ft::is_integral<char>::value );
     // SHOW( f(123) );
 }
