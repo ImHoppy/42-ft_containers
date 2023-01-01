@@ -91,7 +91,7 @@ namespace ft
 
 	template<typename _Tp>
 	struct is_integral
-	: public is_integral_helper<remove_cv<_Tp>>::type
+	: public is_integral_helper<remove_cv<_Tp>::type>::type
 	{ };
 
 	#include <iostream>
