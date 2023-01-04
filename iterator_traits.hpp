@@ -11,7 +11,7 @@ namespace ft {
 
 	struct output_iterator_tag {};
 
-	template <class Iterator>
+	template< class Iterator >
 	class iterator_traits
 	{
 		public:
@@ -22,26 +22,26 @@ namespace ft {
 		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
-	template <class T>
+	template< class T >
 	class iterator_traits<T*>
 	{
 		public:
-		typedef typename Iterator::difference_type		ptrdiff_t;
-		typedef typename Iterator::value_type			T;
-		typedef typename Iterator::pointer				T*;
-		typedef typename Iterator::reference			T&;
-		typedef typename Iterator::iterator_category	random_access_iterator_tag;
+		typedef ptrdiff_t					difference_type;
+		typedef T							value_type;
+		typedef T*							pointer;
+		typedef T&							reference;
+		typedef random_access_iterator_tag	iterator_category;
 	};
 
-	template <class T>
+	template< class T >
 	class iterator_traits<const T*>
 	{
 		public:
-		typedef typename Iterator::difference_type		ptrdiff_t;
-		typedef typename Iterator::value_type			T;
-		typedef typename Iterator::pointer				const T*;
-		typedef typename Iterator::reference			const T&;
-		typedef typename Iterator::iterator_category	random_access_iterator_tag;
+		typedef ptrdiff_t					difference_type;
+		typedef T							value_type;
+		typedef const T*					pointer;
+		typedef const T&					reference;
+		typedef random_access_iterator_tag	iterator_category;
 
 	};
 
