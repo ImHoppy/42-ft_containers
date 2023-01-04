@@ -4,6 +4,12 @@
 namespace ft
 {
 
+	template< bool, typename >
+	struct enable_if { };
+
+	template< typename T >
+	struct enable_if<true, T> { typedef T type; };
+
 	template< class T > struct remove_cv					{ typedef T type; };
 	template< class T > struct remove_cv<const T>			{ typedef T type; };
 	template< class T > struct remove_cv<volatile T>		{ typedef T type; };
