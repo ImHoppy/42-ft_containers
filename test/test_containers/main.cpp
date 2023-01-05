@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-void vector_main();
+void vector_main() {};
 void list_main() {};
 void map_main() {};
 void stack_main() {};

@@ -1,5 +1,5 @@
 
-SOURCES		= main.cpp type_traits.cpp vector.cpp
+SOURCES		= main.cpp type_traits.cpp
 OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 

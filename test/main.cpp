@@ -134,11 +134,11 @@ int main(int ac, char** av)
 		}
 		else if (strcmp(line1, line2) != 0) {
 			test.result = false;
+			test.add();
 			std::cout << '\n';
 			std::cout << SetColor(fg::blue, "Expected: ") << std::setw(5) << line1;
 			std::cout << SetColor(fg::blue, "Got: ") << std::setw(10) << line2;
 			std::cout << '\n';
-			test.add();
 		}
 		else 
 			test.add();
