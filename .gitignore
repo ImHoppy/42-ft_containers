@@ -31,3 +31,7 @@
 *.out
 *.app
 ft_container_tester
+output_*.txt
+test/test_containers/*_containers
+.gitignore
+test/ft_containers_tester
