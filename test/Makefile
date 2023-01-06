@@ -15,6 +15,7 @@ all: $(NAME)
 	$(MAKE) FT=1 --directory=test_containers
 	$(MAKE) clean FT=1 --silent --directory=test_containers
 	$(MAKE) STD=1 --directory=test_containers
+	$(MAKE) clean STD=1 --silent --directory=test_containers
 
 clean:
 	rm -rf $(OBJECTS)

@@ -100,8 +100,8 @@ int main(int ac, char** av)
 	std::cout << "FT: " << (ending_time.tv_sec - starting_time.tv_sec) * 1000 + (ending_time.tv_usec - starting_time.tv_usec) / 1000 << "ms " << ((ending_time.tv_usec - starting_time.tv_usec) % 1000) << "us\n";
 
 	// Read the output of the two executables line by line
-	char line1[1024];
-	char line2[1024];
+	char line1[1024] = {};
+	char line2[1024] = {};
 	bool freeze1 = false;
 	bool freeze2 = false;
 
@@ -146,7 +146,6 @@ int main(int ac, char** av)
 	
 	if (test.on)
 		test.end();
-
 	if (strcmp(line1, line2) != 0 || fgets(line1, 1024, stream1) || fgets(line2, 1024, stream2)) {
 		std::cout << bg::red << fg::white << "Outputs have different number of lines" << style::reset << std::endl;
 	}

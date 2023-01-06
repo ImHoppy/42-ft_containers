@@ -1,10 +1,10 @@
 
-SOURCES		= main.cpp type_traits.cpp
+SOURCES		= main.cpp type_traits.cpp vector.cpp
 OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 
 CXX			= c++
-CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I../..
+CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I../.. -g3
 
 
 ifdef STD
