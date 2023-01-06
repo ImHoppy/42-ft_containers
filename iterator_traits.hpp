@@ -45,4 +45,8 @@ namespace ft {
 
 	};
 
+	template<typename Iter>
+	inline typename iterator_traits<Iter>::iterator_category iterator_category(const Iter&)
+	{ return typename iterator_traits<Iter>::iterator_category(); }
+
 } // namespace ft
