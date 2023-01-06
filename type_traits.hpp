@@ -21,6 +21,7 @@ namespace ft
 		typedef T value_type;
 		typedef integral_constant<T, V> type;
 		static const T value = V;
+		operator bool() const { return value; }
 	};
 
 	// using true_type = integral_constant<bool, true>;
