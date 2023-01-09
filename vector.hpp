@@ -5,12 +5,13 @@
 #include "iterator.hpp"
 #include "reverse_iterator.hpp"
 
-namespace ft {
+namespace ft
+{
 
-	template< class T, class Alloc = std::allocator<T> >
-	class vector {
+	template <class T, class Alloc = std::allocator<T> >
+	class vector
+	{
 	public:
-
 		// Member types
 		// typedef int											value_type;
 		// typedef std::allocator<int>										allocator_type;
@@ -33,15 +34,14 @@ namespace ft {
 		pointer			_finish;
 		pointer			_end_storage;
 	public:
-/******************************************************************************/
+		/******************************************************************************/
 		// Default constructor
-		explicit vector(const allocator_type& alloc = allocator_type())
-		: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL)
-		{};
+		explicit vector(const allocator_type &alloc = allocator_type())
+			: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL){};
 		// Fill constructor
-		explicit vector(size_type n, const value_type& val = value_type(),
-				const allocator_type& alloc = allocator_type())
-		: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL)
+		explicit vector(size_type n, const value_type &val = value_type(),
+						const allocator_type &alloc = allocator_type())
+			: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL)
 		{
 			_start = _allocator.allocate(n);
 			_finish = _start;
@@ -53,16 +53,16 @@ namespace ft {
 		// Range constructor
 		template <class InputIterator>
 		vector(InputIterator first, InputIterator last,
-				const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
-		: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL)
+			   const allocator_type &alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+			: _allocator(alloc), _start(NULL), _finish(NULL), _end_storage(NULL)
 		{
 			reserve(last - first);
 			for (; first != last; ++first)
 				push_back(*first);
 		};
 		// Copy constructor
-		vector(const vector& x)
-		: _allocator(x._allocator), _start(NULL), _finish(NULL), _end_storage(NULL)
+		vector(const vector &x)
+			: _allocator(x._allocator), _start(NULL), _finish(NULL), _end_storage(NULL)
 		{
 			_start = _allocator.allocate(x.size());
 			_finish = _start;
@@ -76,7 +76,7 @@ namespace ft {
 			clear();
 			_allocator.deallocate(_start, capacity());
 		};
-		vector& operator=(const vector& x)
+		vector &operator=(const vector &x)
 		{
 			if (this == &x)
 				return *this;
@@ -148,9 +148,13 @@ namespace ft {
 			}
 		};
 		size_type capacity() const
-		{ return size_type(_end_storage - _start); }
+		{
+			return size_type(_end_storage - _start);
+		}
 		bool empty() const
-		{ return begin() == end(); }
+		{
+			return begin() == end();
+		}
 		void reserve(size_type n)
 		{
 			if (n > max_size())
@@ -169,12 +173,15 @@ namespace ft {
 				_finish = _start + old_size;
 				_end_storage = _start + n;
 			}
-
 		};
 		reference operator[](size_type n)
-		{ return _start[n]; }
+		{
+			return _start[n];
+		}
 		const_reference operator[](size_type n) const
-		{ return _start[n]; }
+		{
+			return _start[n];
+		}
 		reference at(size_type n)
 		{
 			if (n >= size())
@@ -188,31 +195,39 @@ namespace ft {
 			return _start[n];
 		};
 		reference front()
-		{ return *begin(); }
+		{
+			return *begin();
+		}
 		const_reference front() const
-		{ return *begin(); }
+		{
+			return *begin();
+		}
 		reference back()
-		{ return *(end() - 1); }
+		{
+			return *(end() - 1);
+		}
 		const_reference back() const
-		{ return *(end() - 1); }
-/******************************************************************************/
+		{
+			return *(end() - 1);
+		}
+		/******************************************************************************/
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last,
-			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			clear();
 			reserve(last - first);
 			for (; first != last; ++first)
 				push_back(*first);
 		}
-		void assign(size_type n, const value_type& val)
+		void assign(size_type n, const value_type &val)
 		{
 			clear();
 			reserve(n);
 			for (; n > 0; --n)
 				push_back(val);
 		}
-		void push_back(const value_type& val)
+		void push_back(const value_type &val)
 		{
 			if (_finish == _end_storage)
 			{
@@ -238,7 +253,7 @@ namespace ft {
 			std::cout << std::endl;
 		}
 		// single element
-		iterator insert(iterator position, const value_type& val)
+		iterator insert(iterator position, const value_type &val)
 		{
 			size_type pos_len = &(*position) - _start;
 			if (size_type(_end_storage - _finish) >= size() + 1)
@@ -264,7 +279,7 @@ namespace ft {
 			return (iterator(_start + pos_len));
 		}
 		// fill
-		void insert(iterator position, size_type n, const value_type& val)
+		void insert(iterator position, size_type n, const value_type &val)
 		{
 			size_type pos_len = &(*position) - _start;
 			if (size_type(_end_storage - _finish) >= size() + n)
@@ -293,39 +308,42 @@ namespace ft {
 		// insert_range
 		template <typename InputIterator>
 		void insert_range(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag,
-			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
+						  typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
-			size_type pos_len = &(*position) - _start;
-			size_type n = 1;
-			if (size_type(_end_storage - _finish) >= size() + n)
+			size_type newCapacity = size() >= capacity() ? capacity() * 2 : capacity();
+			pointer newStart = _allocator.allocate(newCapacity);
+			size_type newSize = 0;
+			for (; newSize < pos_len; ++newSize)
+				_allocator.construct(newStart + newSize, _start[i]);
+			// push_back to newStart all value of Input iterator
+			for (; first != last; ++first, ++newSize)
 			{
-				for (size_type i = 0; first != last; ++i, ++first)
-					push_back(*first);
-				return;
+				if (newSize >= newCapacity)
+				{
+					newCapacity *= 2;
+					// reserve capacity
+					pointer newStart2 = _allocator.allocate(newCapacity);
+					for (size_type i = 0; i < newSize; ++i)
+						_allocator.construct(newStart2 + i, newStart[i]);
+					_allocator.deallocate(newStart, newCapacity / 2);
+					newStart = newStart2;
+				}
+				_allocator.construct(newStart + newSize, *first);
 			}
-			else
-			{
-				size_type new_capacity = size() >= capacity() ? capacity() * 2 : capacity();
-				pointer newStart = _allocator.allocate(new_capacity);
-				for (size_type i = 0; i < pos_len; ++i)
-					_allocator.construct(newStart + i, _start[i]);
-				for (size_type i = pos_len; i < pos_len + n; ++i, ++first)
-					_allocator.construct(newStart + i, *first);
-				for (size_type i = pos_len; i < size(); ++i)
-					_allocator.construct(newStart + i + n, _start[i]);
-				_allocator.deallocate(_start, capacity());
-				size_type old_size = size();
-				_start = newStart;
-				_finish = _start + old_size + n;
-				_end_storage = _start + new_capacity;
-			}
+			for (size_type i = pos_len; i < size(); ++i)
+				_allocator.construct(newStart + i + (newSize - pos_len), _start[i]);
+			_allocator.deallocate(_start, capacity());
+			size_type old_size = size();
+			_start = newStart;
+			_finish = _start + old_size + (newSize - pos_len);
+			_end_storage = _start + newCapacity;
 		}
 		template <typename InputIterator>
 		void insert_range(iterator position, InputIterator first, InputIterator last, std::forward_iterator_tag,
-			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
+						  typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			size_type pos_len = &(*position) - _start;
-			size_type n = last - first;
+			size_type n = ft::distance(first, last);
 			if (size_type(_end_storage - _finish) >= size() + n)
 			{
 				for (size_type i = 0; i < n; ++i, ++first)
@@ -352,14 +370,14 @@ namespace ft {
 		// range Input Iterator
 		template <class InputIterator>
 		void insert(iterator position, InputIterator first, InputIterator last,
-			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			insert_range(position, first, last, ft::iterator_category(first));
 		}
 
 		iterator erase(iterator position);
 		iterator erase(iterator first, iterator last);
-		void swap(vector& x)
+		void swap(vector &x)
 		{
 			pointer tmp_start = _start;
 			pointer tmp_finish = _finish;
@@ -381,8 +399,9 @@ namespace ft {
 			_finish = _start;
 		}
 		allocator_type get_allocator() const
-		{ return _allocator; }
-
+		{
+			return _allocator;
+		}
 
 	}; // class vector
 } // namespace ft
