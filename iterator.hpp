@@ -7,7 +7,7 @@ namespace ft
 	
 	template<typename InputIterator>
 	inline typename iterator_traits<InputIterator>::difference_type
-	distance_tag(InputIterator first, InputIterator last, input_iterator_tag)
+	distance_tag(InputIterator first, InputIterator last, std::input_iterator_tag)
 	{
 		typename iterator_traits<InputIterator>::difference_type n = 0;
 		while (first != last)
@@ -20,7 +20,7 @@ namespace ft
 
 	template<typename RandomAccessIterator>
 	inline typename iterator_traits<RandomAccessIterator>::difference_type
-	distance_tag(RandomAccessIterator first, RandomAccessIterator last, random_access_iterator_tag)
+	distance_tag(RandomAccessIterator first, RandomAccessIterator last, std::random_access_iterator_tag)
 	{
 		return last - first;
 	}
@@ -45,10 +45,10 @@ namespace ft
 	};
 
 	template< typename Iterator >
-	class random_access_iterator : public iterator<random_access_iterator_tag, Iterator>
+	class random_access_iterator : public iterator<std::random_access_iterator_tag, Iterator>
 	{
 		protected:
-			typedef iterator<random_access_iterator_tag, Iterator>	_traits_type;
+			typedef iterator<std::random_access_iterator_tag, Iterator>	_traits_type;
 
 			typename _traits_type::pointer	_current;
 

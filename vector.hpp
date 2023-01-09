@@ -292,7 +292,7 @@ namespace ft {
 		}
 		// insert_range
 		template <typename InputIterator>
-		void insert_range(iterator position, InputIterator first, InputIterator last, ft::input_iterator_tag,
+		void insert_range(iterator position, InputIterator first, InputIterator last, std::input_iterator_tag,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
 		{
 			size_type pos_len = &(*position) - _start;
@@ -321,7 +321,7 @@ namespace ft {
 			}
 		}
 		template <typename InputIterator>
-		void insert_range(iterator position, InputIterator first, InputIterator last, ft::forward_iterator_tag,
+		void insert_range(iterator position, InputIterator first, InputIterator last, std::forward_iterator_tag,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator >::type* = 0)
 		{
 			size_type pos_len = &(*position) - _start;
