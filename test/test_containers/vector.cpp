@@ -248,8 +248,8 @@ void input_iterator(std::string const &input)
 
 int vector_main()
 {
-	std::cout << "# vector cpp doc test\n";
- /* 	{
+	std::cout << "# vector\n";
+  	{
 		::vector<int> myvector(3, 100);
 		::vector<int>::iterator it;
 
@@ -271,18 +271,13 @@ int vector_main()
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
-	 */std::cout << "# vector\n";
-	// old();
-	// resize_test();
-	// insert_test();
-	// std::cout << "# test 1\n";
-	// input_iterator("");
-	// std::cout << "# test 2\n";
-	// input_iterator("1");
-	std::cout << "# test 3\n";
+	old();
+	resize_test();
+	insert_test();
+	input_iterator("");
+	input_iterator("1");
 	input_iterator("2 3 4");
-	// std::cout << "# test 4\n";
-	// input_iterator("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16");
+
 
 	return 0;
 }
