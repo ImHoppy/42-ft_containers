@@ -1,6 +1,7 @@
 #pragma once
 #include "iterator_traits.hpp"
 #include "utils.hpp"
+#include <iterator>
 
 namespace ft
 {
@@ -177,6 +178,18 @@ namespace ft
 			(const random_access_iterator<It>& lhs, const random_access_iterator<It>& rhs)
 		{ return lhs.base() >= rhs.base(); }
 
+	template<typename IteratorL, typename IteratorR>
+		inline typename random_access_iterator<IteratorL>::difference_type
+	operator-
+		(const random_access_iterator<IteratorL>& x, const random_access_iterator<IteratorR>& y)
+	{ return y.base() - x.base(); }
 	
+	template<typename IteratorL, typename IteratorR>
+		inline typename random_access_iterator<IteratorL>::difference_type
+	operator+
+		(const random_access_iterator<IteratorL>& x, const random_access_iterator<IteratorR>& y)
+	{ return y.base() + x.base(); }
+
+
 } // namespace ft
 
