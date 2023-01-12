@@ -238,7 +238,7 @@ namespace ft
 		}
 	public:
 		template <class InputIterator>
-		void _assign(InputIterator first, InputIterator last,  std::forward_iterator_tag,
+		void assign(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			_assign(first, last, std::iterator_traits<InputIterator>::iterator_category());
