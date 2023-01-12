@@ -137,6 +137,8 @@ namespace ft
 		};
 		void resize(size_type n, value_type val = value_type())
 		{
+			if (n > max_size())
+				throw std::length_error("vector::resize");
 			if (n > size())
 			{
 				if (n > capacity())
@@ -241,7 +243,7 @@ namespace ft
 		void assign(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
-			_assign(first, last, std::iterator_traits<InputIterator>::iterator_category());
+			_assign(first, last, ft::iterator_category(first));
 		}
 		void assign(size_type n, const value_type &val)
 		{
@@ -274,9 +276,11 @@ namespace ft
 			if (size_type(_end_storage - _finish) >= size() + 1)
 			{
 				for (size_type i = 0; i < this->size() - pos_index; i++)
+				{
 					_allocator.construct(_finish - i, *(_finish - i - 1));
+					_allocator.destroy(_finish - i - 1);
+				}
 				++_finish;
-				_allocator.destroy(&(*position));
 				_allocator.construct(&(*position), val);
 			}
 			else
