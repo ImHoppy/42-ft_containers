@@ -168,7 +168,10 @@ namespace ft
 				if (size() > 0)
 				{
 					for (size_type i = 0; i < size(); ++i)
+					{
 						_allocator.construct(newStart + i, _start[i]);
+						_allocator.destroy(_start + i);
+					}
 					_allocator.deallocate(_start, capacity());
 				}
 				size_type old_size = size();
@@ -214,14 +217,31 @@ namespace ft
 			return *(end() - 1);
 		}
 		/******************************************************************************/
+	private:
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last,
+		void _assign(InputIterator first, InputIterator last,  std::input_iterator_tag,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			clear();
-			reserve(ft::distance(first, first));
 			for (; first != last; ++first)
 				push_back(*first);
+		}
+
+		template <class InputIterator>
+		void _assign(InputIterator first, InputIterator last,  std::forward_iterator_tag,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+		{
+			clear();
+			reserve(ft::distance(first, last));
+			for (; first != last; ++first)
+				push_back(*first);
+		}
+	public:
+		template <class InputIterator>
+		void _assign(InputIterator first, InputIterator last,  std::forward_iterator_tag,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+		{
+			_assign(first, last, std::iterator_traits<InputIterator>::iterator_category());
 		}
 		void assign(size_type n, const value_type &val)
 		{
