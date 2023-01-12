@@ -2,8 +2,8 @@
 
 #include <memory>
 #include "type_traits.hpp"
-#include "iterator.hpp"
 #include "reverse_iterator.hpp"
+#include "distance.hpp"
 #include <stdexcept>
 
 namespace ft
@@ -14,8 +14,6 @@ namespace ft
 	{
 	public:
 		// Member types
-		// typedef int											value_type;
-		// typedef std::allocator<int>										allocator_type;
 		typedef T											value_type;
 		typedef Alloc										allocator_type;
 		typedef size_t										size_type;
@@ -82,8 +80,6 @@ namespace ft
 			if (this == &x)
 				return *this;
 			clear();
-			// for (pointer start = x._start; start != x._finish; ++start)
-				// push_back(*start);
 			_allocator.deallocate(_start, capacity());
 			_start = _allocator.allocate(x.size());
 			_finish = _start;
@@ -160,6 +156,7 @@ namespace ft
 		{
 			return begin() == end();
 		}
+/******************************************************************************/
 		void reserve(size_type n)
 		{
 			if (n > max_size())
@@ -182,6 +179,7 @@ namespace ft
 				_end_storage = _start + n;
 			}
 		};
+/******************************************************************************/
 		reference operator[](size_type n)
 		{
 			return _start[n];
@@ -218,7 +216,7 @@ namespace ft
 		{
 			return *(end() - 1);
 		}
-		/******************************************************************************/
+/******************************************************************************/
 	private:
 		template <class InputIterator>
 		void _assign(InputIterator first, InputIterator last,  std::input_iterator_tag,

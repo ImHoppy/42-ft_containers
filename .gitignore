@@ -35,3 +35,5 @@ output_*.txt
 test/test_containers/*_containers
 .gitignore
 test/ft_containers_tester
+containers_test/
+ft_containers_monkey_tester/
