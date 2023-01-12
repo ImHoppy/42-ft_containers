@@ -171,8 +171,8 @@ namespace ft
 						_allocator.construct(newStart + i, _start[i]);
 						_allocator.destroy(_start + i);
 					}
-					_allocator.deallocate(_start, capacity());
 				}
+				_allocator.deallocate(_start, capacity());
 				size_type old_size = size();
 				_start = newStart;
 				_finish = _start + old_size;
