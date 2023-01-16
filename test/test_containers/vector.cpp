@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 struct data
 {
 	int a;
@@ -182,68 +182,145 @@ void insert_test()
 void input_iterator(std::string const &input)
 {
 
+	std::stringstream text(input);
+
+	std::istream_iterator<int> start(text);
+	std::istream_iterator<int> last;
+
 	{
 		vector<int> v;
-	
-		std::stringstream text(input);
-		std::istream_iterator<int> start(text);
-		std::istream_iterator<int> last;
 
 		v.insert(v.end(), start, last);
-		print_vector_size(v);
 		print_vector_content(v);
 	}
+	start = std::istream_iterator<int>(text);
 	{
 		vector<int> v;
-		std::stringstream text(input);
-
-		std::istream_iterator<int> start(text);
-		std::istream_iterator<int> last;
 
 		v.insert(v.begin(), start, last);
-
-		print_vector_size(v);
 		print_vector_content(v);
 	}
 
+	start = std::istream_iterator<int>(text);
 	{
 		vector<int> v(10, 0);
-		std::stringstream text(input);
-
-		std::istream_iterator<int> start(text);
-		std::istream_iterator<int> last;
-
 		v.insert(v.end(), start, last);
-
-		print_vector_size(v);
 		print_vector_content(v);
 	}
+	start = std::istream_iterator<int>(text);
 
 	{
 		vector<int> v(10, 0);
-		std::stringstream text(input);
-
-		std::istream_iterator<int> start(text);
-		std::istream_iterator<int> last;
 
 		v.insert(v.begin(), start, last);
-
-		print_vector_size(v);
 		print_vector_content(v);
 	}
 
+	start = std::istream_iterator<int>(text);
 	{
 		vector<int> v(10, 0);
-		std::stringstream text(input);
-
-		std::istream_iterator<int> start(text);
-		std::istream_iterator<int> last;
 
 		v.insert(v.begin() + 4, start, last);
-
-		print_vector_size(v);
 		print_vector_content(v);
 	}
+}
+
+void test()
+{
+	vector<int> v;
+	print_vector_content(v);
+	vector<std::string> vs;
+	print_vector_content(vs);
+
+	v.push_back(1);
+	print_vector_content(v);
+	vs.push_back("1");
+	print_vector_content(vs);
+
+	vector<std::string> v3(10, "1");
+	print_vector_content(v3);
+	vector<std::string> v04(v3.begin(), v3.end());
+	print_vector_content(v04);
+	vector<std::string> v5(v3);
+	print_vector_content(v5);
+
+	vector<std::string> v6;
+	v6 = v5;
+	print_vector_content(v6);
+
+	const vector<const std::string> v0(10, "1");
+	vector<std::string> v4(v0.begin(), v0.end());
+
+	print_vector_size(v4);
+	v4.resize(5);
+	print_vector_size(v4);
+
+	v4.resize(15);
+	print_vector_size(v4);
+
+	print_vector_size(v4);
+
+	std::cout << v4.empty() << std::endl;
+	v4.clear();
+	print_vector_size(v4);
+	print_vector_content(v4);
+	std::cout << v4.empty() << std::endl;
+
+	v4.reserve(100);
+	print_vector_size(v4);
+	std::cout << v4[0];
+	std::cout << v4[1];
+	try
+	{
+		std::cout << v4.at(0);
+		/* code */
+	}
+	catch(const std::exception& e)
+	{}
+	v4.push_back("1");
+	try
+	{
+		std::cout << v4.at(0);
+		/* code */
+	}
+	catch(const std::exception& e)
+	{}
+	std::cout << std::endl;
+
+	std::cout << v4.front() << " ";	
+	std::cout << v4.back() << std::endl;
+	v4.assign(10, "1");
+	print_vector_content(v4);
+	v4.assign(v3.begin(), v3.end());
+	print_vector_content(v4);
+	v4.pop_back();
+	print_vector_content(v4);
+	v4.insert(v4.begin(), "1");
+	print_vector_content(v4);
+	v4.insert(v4.begin(), 10, "1");
+	print_vector_content(v4);
+	v4.insert(v4.begin(), v3.begin(), v3.end());
+	print_vector_content(v4);
+	v4.erase(v4.begin());
+	print_vector_content(v4);
+	v4.erase(v4.begin(), v4.end());
+	print_vector_content(v4);
+	v4.swap(v3);
+	print_vector_content(v4);
+	print_vector_content(v3);
+	v4.swap(v3);
+	print_vector_content(v4);
+	print_vector_content(v3);
+	
+	v4 = v3;
+
+	std::cout << (v4 == v3) << " ";
+	std::cout << (v4 != v3) << " ";
+	std::cout << (v4 < v3) << " ";
+	std::cout << (v4 <= v3) << " ";
+	std::cout << (v4 > v3) << " ";
+	std::cout << (v4 >= v3) << std::endl;
+
 }
 
 int vector_main()
