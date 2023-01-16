@@ -176,7 +176,6 @@ void insert_test()
 	print_vector_content(v);
 }
 
-#include <iterator>
 #include <sstream>
 #include <iterator>
 void input_iterator(std::string const &input)
@@ -227,13 +226,16 @@ void input_iterator(std::string const &input)
 
 void test()
 {
-	vector<int> v;
-	print_vector_content(v);
+	{
+		vector<int> v;
+		print_vector_content(v);
+
+		v.push_back(1);
+		print_vector_content(v);
+	}
+	
 	vector<std::string> vs;
 	print_vector_content(vs);
-
-	v.push_back(1);
-	print_vector_content(v);
 	vs.push_back("1");
 	print_vector_content(vs);
 
@@ -248,7 +250,7 @@ void test()
 	v6 = v5;
 	print_vector_content(v6);
 
-	const vector<const std::string> v0(10, "1");
+	const vector<std::string> v0(10, "1");
 	vector<std::string> v4(v0.begin(), v0.end());
 
 	print_vector_size(v4);
