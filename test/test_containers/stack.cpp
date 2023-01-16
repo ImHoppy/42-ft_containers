@@ -6,23 +6,23 @@ struct data
 	int b;
 };
 
-std::ostream &operator<<(std::ostream &os, data &obj)
-{
-	os << "a: " << obj.a << "\tb: " << obj.b;
-	return os;
-}
+std::ostream &operator<<(std::ostream &os, data &obj);
 
 #ifndef USE_STD
 #include "stack.hpp"
+#include "vector.hpp"
+
 using namespace ft;
 #else
 #include <stack>
+#include <vector>
 using namespace std;
 #endif
 
 #include <deque>
 
 void stack_main() {
+	std::cout << "# stack\n";
 	stack<int> myints;
 	std::cout << "0. size: " << myints.size() << '\n';
 

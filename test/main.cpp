@@ -1,6 +1,3 @@
-void	main_type_traits();
-void	vector_main();
-
 #include <string>
 #include <iostream>
 #include <cstdio>

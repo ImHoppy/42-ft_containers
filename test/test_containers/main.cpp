@@ -15,7 +15,7 @@ int	main(int ac, char **av)
 	{
 		flags = atoi(av[1]);
 		if (flags < 0)
-			return 1; 
+			return 1;
 	}
 	if (not flags || flags & 1)
 		vector_main();

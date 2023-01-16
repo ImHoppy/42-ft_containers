@@ -8,9 +8,9 @@ namespace ft {
 	public:
 		typedef T							value_type;
 		typedef Container					container_type;
-		typedef container_type::size_type	size_type;
-		typedef Container::reference		reference;
-		typedef Container::const_reference	const_reference;
+		typedef typename container_type::size_type	size_type;
+		typedef typename Container::reference		reference;
+		typedef typename Container::const_reference	const_reference;
 	private:
 		container_type	_ctnr;
 	public:
