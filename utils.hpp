@@ -2,6 +2,31 @@
 
 namespace ft
 {
+	template <bool IsConst, typename NonConst, typename Const>
+    struct select_const_type {};
+
+    template <typename NonConst, typename Const>
+    struct select_const_type<false, NonConst, Const>
+    {
+        typedef NonConst type;
+    };
+
+    template <typename NonConst, typename Const>
+    struct select_const_type<true, NonConst, Const>
+    {
+        typedef Const type;
+    };
+	enum Color
+	{
+		RED = false,
+		BLACK = true
+	};
+	enum Side
+	{
+		LEFT = false,
+		RIGHT = true
+	};
+
 	typedef long unsigned int size_t;
 	typedef long int ptrdiff_t;
 
@@ -28,7 +53,6 @@ namespace ft
 		** a nullptr.
 		*/
 		void operator&() const;
-
 	} u_nullptr = {};
 
 	template <class Arg1, class Arg2, class Result>

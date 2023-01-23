@@ -19,7 +19,7 @@ namespace ft
 		// nitialization constructor
 		pair(const first_type &a, const second_type &b) : first(a), second(b){};
 		// Copy constructor
-		template <clas U, class V>
+		template <class U, class V>
 		pair(const pair<U, V> &pr) : first(pr.first), second(pr.second){};
 
 		pair &operator=(const pair &pr)
