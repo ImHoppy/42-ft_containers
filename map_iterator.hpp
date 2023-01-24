@@ -32,7 +32,7 @@ private:
 public:
 
 	// Member functions
-	map_iterator( node *ptr = NULL, bool is_end = false ) :
+	map_iterator( node *ptr = u_nullptr, bool is_end = false ) :
 		_node(ptr), _isEnd(is_end)
 	{
 		return;

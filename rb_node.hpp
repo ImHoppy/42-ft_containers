@@ -3,6 +3,7 @@
 #include "utils.hpp"
 #include "pair.hpp"
 #include <memory>
+#include <stdexcept>
 
 namespace ft
 {
@@ -18,12 +19,12 @@ namespace ft
 		typedef pair<const Key, T> value_type;
 		typedef std::size_t size_type;
 
-		rb_node(void) : parent(NULL), rightChild(NULL), leftChild(NULL), color(RED)
+		rb_node(void) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
 		{
 			value.first = Key();
 			value.second = T();
 		}
-		rb_node(value_type &value) : parent(NULL), rightChild(NULL), leftChild(NULL), color(RED), value(value)
+		rb_node(value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
 		{
 			return;
 		}
@@ -103,11 +104,11 @@ namespace ft
 				treeMaximum = treeMaximum->rightChild;
 			return treeMaximum;
 		}
-		rb_node *getTreeSuccessor(const rb_node *currentNode = NULL)
+		rb_node *getTreeSuccessor(const rb_node *currentNode = u_nullptr)
 		{
 			rb_node *tmp;
 
-			if (currentNode == NULL)
+			if (currentNode == u_nullptr)
 				currentNode = this;
 			if (!currentNode->rightChild->isNil())
 				return currentNode->rightChild->getMin();
@@ -119,11 +120,11 @@ namespace ft
 			}
 			return tmp;
 		}
-		rb_node *getTreeSuccessor(const rb_node *currentNode = NULL) const
+		rb_node *getTreeSuccessor(const rb_node *currentNode = u_nullptr) const
 		{
 			rb_node *tmp;
 
-			if (currentNode == NULL)
+			if (currentNode == u_nullptr)
 				currentNode = this;
 			if (!currentNode->rightChild->isNil())
 				return currentNode->rightChild->getMin();
@@ -135,11 +136,11 @@ namespace ft
 			}
 			return tmp;
 		}
-		rb_node *getTreePredecessor(const rb_node *currentNode = NULL)
+		rb_node *getTreePredecessor(const rb_node *currentNode = u_nullptr)
 		{
 			rb_node *tmp;
 
-			if (currentNode == NULL)
+			if (currentNode == u_nullptr)
 				currentNode = this;
 			if (!currentNode->leftChild->isNil())
 				return currentNode->leftChild->getMax();
@@ -151,11 +152,11 @@ namespace ft
 			}
 			return tmp;
 		}
-		rb_node *getTreePredecessor(const rb_node *currentNode = NULL) const
+		rb_node *getTreePredecessor(const rb_node *currentNode = u_nullptr) const
 		{
 			rb_node *tmp;
 
-			if (currentNode == NULL)
+			if (currentNode == u_nullptr)
 				currentNode = this;
 			if (!currentNode->leftChild->isNil())
 				return currentNode->leftChild->getMax();

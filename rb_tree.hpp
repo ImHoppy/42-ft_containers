@@ -20,7 +20,7 @@ namespace ft
 		typedef Compare key_compare;
 		typedef size_t size_type;
 
-		rb_tree(void) : _root(NULL),
+		rb_tree(void) : _root(u_nullptr),
 					 _size(0),
 					 _compare(Compare()),
 					 _alloc(Allocator())
@@ -40,7 +40,7 @@ namespace ft
 		{
 			clear();
 			deleteNode(nil);
-			nil = NULL;
+			nil = u_nullptr;
 		}
 		rb_tree &operator=(const rb_tree &other)
 		{
