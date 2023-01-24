@@ -22,8 +22,8 @@ public:
 	typedef	const Key			key_type;
 	typedef	T					mapped_type;
 	typedef	pair<const Key, T>	value_type;
-	typedef typename ft::select_const_type<IsConst, value_type*, const value_type*>::type	pointer;
-	typedef typename ft::select_const_type<IsConst, value_type&, const value_type&>::type	reference;
+	typedef typename ft::ternaire<IsConst, value_type*, const value_type*>::type	pointer;
+	typedef typename ft::ternaire<IsConst, value_type&, const value_type&>::type	reference;
 
 private:
 
@@ -37,11 +37,7 @@ public:
 	{
 		return;
 	}
-	/* explicit map_iterator( const node *ptr, bool is_end = false ) : */
-	/* 	_node(ptr), _isEnd(is_end) */
-	/* { */
-	/* 	return; */
-	/* } */
+
 	map_iterator( const map_iterator<const Key, T, Compare> &other ):
 		_node(other.getNode()), _isEnd(other.isEnd())
 	{

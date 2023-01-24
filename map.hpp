@@ -112,33 +112,33 @@ namespace ft
 		{
 			return iterator(this->_rbTree.treeMinimum(), (_rbTree.size() == 0));
 		}
-		iterator begin(void) const
+		const_iterator begin(void) const
 		{
-			return iterator(this->_rbTree.treeMinimum(), (_rbTree.size() == 0));
+			return const_iterator(this->_rbTree.treeMinimum(), (_rbTree.size() == 0));
 		}
 		iterator end(void)
 		{
 			return iterator(this->_rbTree.treeMaximum(), true);
 		}
-		iterator end(void) const
+		const_iterator end(void) const
 		{
-			return iterator(this->_rbTree.treeMaximum(), true);
+			return const_iterator(this->_rbTree.treeMaximum(), true);
 		}
 		reverse_iterator rbegin(void)
 		{
 			return reverse_iterator(this->_rbTree.treeMaximum(), (_rbTree.size() == 0));
 		}
-		reverse_iterator rbegin(void) const
+		const_reverse_iterator rbegin(void) const
 		{
-			return reverse_iterator(this->_rbTree.treeMaximum(), (_rbTree.size() == 0));
+			return const_reverse_iterator(this->_rbTree.treeMaximum(), (_rbTree.size() == 0));
 		}
 		reverse_iterator rend(void)
 		{
 			return reverse_iterator(this->_rbTree.treeMinimum(), true);
 		}
-		reverse_iterator rend(void) const
+		const_reverse_iterator rend(void) const
 		{
-			return reverse_iterator(this->_rbTree.treeMinimum(), true);
+			return const_reverse_iterator(this->_rbTree.treeMinimum(), true);
 		}
 
 		bool empty(void) const { return _rbTree.size() == 0; }
@@ -225,10 +225,10 @@ namespace ft
 		iterator insert(iterator position, const value_type &value)
 		{
 			bool placeholder = false;
-
-			if ((*position).first + 1 == value.first)
-				return this->_rbTree.insert(position.getNode(), value,
-											placeholder);
+			(void) position;
+			// if ((*position + 1).first == value.first)
+				// return this->_rbTree.insert(position.getNode(), value,
+											// placeholder);
 			return this->_rbTree.insert(value, placeholder);
 		}
 		template <typename InputIt>
@@ -276,10 +276,10 @@ namespace ft
 
 		friend bool operator==(const map &lhs, const map &rhs)
 		{
-			iterator lhs_it = lhs.begin();
-			iterator lhs_ite = lhs.end();
-			iterator rhs_it = rhs.begin();
-			iterator rhs_ite = rhs.end();
+			const_iterator lhs_it = lhs.begin();
+			const_iterator lhs_ite = lhs.end();
+			const_iterator rhs_it = rhs.begin();
+			const_iterator rhs_ite = rhs.end();
 
 			while (lhs_it != lhs_ite && rhs_it != rhs_ite)
 			{
@@ -298,10 +298,10 @@ namespace ft
 		}
 		friend bool operator<(const map &lhs, const map &rhs)
 		{
-			iterator lhs_it = lhs.begin();
-			iterator lhs_ite = lhs.end();
-			iterator rhs_it = rhs.begin();
-			iterator rhs_ite = rhs.end();
+			const_iterator lhs_it = lhs.begin();
+			const_iterator lhs_ite = lhs.end();
+			const_iterator rhs_it = rhs.begin();
+			const_iterator rhs_ite = rhs.end();
 
 			while (lhs_it != lhs_ite && rhs_it != rhs_ite)
 			{

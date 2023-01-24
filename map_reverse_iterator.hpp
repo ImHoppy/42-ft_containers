@@ -21,8 +21,8 @@ public:
 	typedef	const Key			key_type;
 	typedef	T					mapped_type;
 	typedef	pair<const Key, T>	value_type;
-	typedef typename ft::select_const_type<IsConst, value_type*, const value_type*>::type	pointer;
-	typedef typename ft::select_const_type<IsConst, value_type&, const value_type&>::type	reference;
+	typedef typename ft::ternaire<IsConst, value_type*, const value_type*>::type	pointer;
+	typedef typename ft::ternaire<IsConst, value_type&, const value_type&>::type	reference;
 
 private:
 
