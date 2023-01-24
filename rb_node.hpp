@@ -7,7 +7,7 @@
 namespace ft
 {
 
-	template <typename Key, typename T, typename Compare = std::less<Key>,
+	template <typename Key, typename T, typename Compare = less<Key>,
 			  typename Allocator = std::allocator<ft::pair<const Key, T> > >
 	class rb_node
 	{
@@ -66,13 +66,6 @@ namespace ft
 		const key_type &getKey(void) const { return value.first; }
 		mapped_type &getMapped(void) { return value.second; }
 		const mapped_type &getMapped(void) const { return value.second; }
-		std::string getColorAsString(void) const
-		{
-			if (this->color == RED)
-				return std::string("RED");
-			else
-				return std::string("BLACK");
-		}
 		char getColorAsChar(void) const
 		{
 			return this->color;
