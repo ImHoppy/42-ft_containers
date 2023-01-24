@@ -22,8 +22,8 @@ namespace ft
 
 		rb_tree(void) : _root(NULL),
 					 _size(0),
-					 _compare(),
-					 _alloc()
+					 _compare(Compare()),
+					 _alloc(Allocator())
 		{
 			_nodeAlloc = std::allocator<node>();
 
@@ -49,8 +49,8 @@ namespace ft
 				clear();
 				_compare = other._compare;
 				_alloc = other._alloc;
-				_size = other._size;
 				_root = clone(other._root);
+				_size = other._size;
 			}
 			return *this;
 		}
@@ -80,7 +80,7 @@ namespace ft
 		}
 		node *insert(node *insertionParent, const value_type &value, bool &wasInserted)
 		{
-			node *nodeToInsert = NULL;
+			node *nodeToInsert = nil;
 			if (value.first == insertionParent->getKey() && !insertionParent->isNil())
 			{
 				wasInserted = false;
@@ -218,9 +218,9 @@ namespace ft
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || key == current_node->getKey())
+			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getKey(), key) || key == current_node->getKey())
+			if (_compare(current_node->getKey(), key) || current_node->getKey() == key)
 				return upper_bound(current_node->rightChild, key);
 			tmp = upper_bound(current_node->leftChild, key);
 			if (tmp->isNil())
@@ -231,9 +231,9 @@ namespace ft
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || key == current_node->getKey())
+			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getKey(), key) || key == current_node->getKey())
+			if (_compare(current_node->getKey(), key) || current_node->getKey() == key)
 				return upper_bound(current_node->rightChild, key);
 			tmp = upper_bound(current_node->leftChild, key);
 			if (tmp->isNil())
@@ -246,11 +246,11 @@ namespace ft
 		}
 		node *treeMinimum(void) const
 		{
-			return _root->getMax();
+			return _root->getMin();
 		}
 		node *treeMaximum(void)
 		{
-			return _root->getMin();
+			return _root->getMax();
 		}
 		node *treeMaximum(void) const
 		{
