@@ -3,16 +3,16 @@
 namespace ft
 {
 	template <bool IsConst, typename NonConst, typename Const>
-    struct select_const_type {};
+    struct ternaire {};
 
     template <typename NonConst, typename Const>
-    struct select_const_type<false, NonConst, Const>
+    struct ternaire<false, NonConst, Const>
     {
         typedef NonConst type;
     };
 
     template <typename NonConst, typename Const>
-    struct select_const_type<true, NonConst, Const>
+    struct ternaire<true, NonConst, Const>
     {
         typedef Const type;
     };
