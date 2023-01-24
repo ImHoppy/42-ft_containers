@@ -256,11 +256,11 @@ namespace ft
 		{
 			return _root->getMax();
 		}
-		void printTree(void) const
+		void printTree(std::string file = "tree_visualisation.mmd") const
 		{
 			std::ofstream myfile;
 
-			myfile.open("tree_visualisation.mmd", std::ios::out);
+			myfile.open(file.c_str(), std::ios::out);
 			myfile << "flowchart TD" << std::endl;
 			myfile << "classDef RED fill:#FF0000,color:#FFFFFF;" << std::endl;
 			myfile << "classDef BLACK fill:#000000,color:#FFFFFF;" << std::endl;
@@ -539,7 +539,7 @@ namespace ft
 		{
 			file << node << "(" << node->getKey() << " - " << node->getMapped()
 				 << ")" << std::endl;
-			file << "class " << node << " " << node->getColorAsString() << ";"
+			file << "class " << node << " " << (node->color == RED ? "RED": "BLACK") << ";"
 				 << std::endl;
 			if (!node->parent->isNil())
 				file << node << "-->" << node->parent << std::endl;

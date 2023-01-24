@@ -331,9 +331,9 @@ namespace ft
 			lhs.swap(rhs);
 		}
 
-		void printTree(void) const
+		void printTree(std::string file = "tree_visualisation.mmd") const
 		{
-			_rbTree.printTree();
+			_rbTree.printTree(file);
 		}
 
 	private:
