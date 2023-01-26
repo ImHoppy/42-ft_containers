@@ -21,9 +21,9 @@ namespace ft
 		typedef size_t size_type;
 
 		rb_tree(void) : _root(u_nullptr),
-					 _size(0),
-					 _compare(Compare()),
-					 _alloc(Allocator())
+						_size(0),
+						_compare(Compare()),
+						_alloc(Allocator())
 		{
 			_nodeAlloc = std::allocator<node>();
 
@@ -57,13 +57,11 @@ namespace ft
 		node *getRoot(void) { return _root; }
 		size_type size(void) const { return _size; }
 		size_type max_size(void) const { return this->_nodeAlloc.max_size(); }
-		bool empty(void) const { return _size == 0; }
 		void clear(void)
 		{
 			if (!_root->isNil())
 				clearNodes(_root);
 			_root = nil;
-			_size = 0;
 		}
 		void rotateLeft(node *hinge)
 		{
@@ -539,7 +537,7 @@ namespace ft
 		{
 			file << node << "(" << node->getKey() << " - " << node->getMapped()
 				 << ")" << std::endl;
-			file << "class " << node << " " << (node->color == RED ? "RED": "BLACK") << ";"
+			file << "class " << node << " " << (node->color == RED ? "RED" : "BLACK") << ";"
 				 << std::endl;
 			if (!node->parent->isNil())
 				file << node << "-->" << node->parent << std::endl;

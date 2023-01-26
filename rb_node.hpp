@@ -59,7 +59,7 @@ namespace ft
 				return this->leftChild;
 			if (side == RIGHT)
 				return this->rightChild;
-			throw std::invalid_argument("You can only use value LEFT (0) and RIGHT (1)");
+			throw std::invalid_argument("Undefined side for getChild");
 		}
 
 		value_type &getValue(void) { return value; }
