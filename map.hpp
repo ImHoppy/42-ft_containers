@@ -76,7 +76,7 @@ namespace ft
 			this->_compare = other._compare;
 			this->_alloc = other._alloc;
 		}
-		~map(void)
+		~map()
 		{
 		}
 
