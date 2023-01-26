@@ -32,6 +32,7 @@ namespace ft
 		typedef ft::map_reverse_iterator<const Key, T, Cmp, true> const_reverse_iterator;
 
 		typedef rb_tree<const Key, T, Cmp, Allocator> tree_type;
+		typedef rb_node<const Key, T, Cmp, Allocator> node_type;
 
 	public:
 		class value_compare
@@ -96,14 +97,14 @@ namespace ft
 		mapped_type &at(const key_type &key)
 		{
 			if (this->alreadyExists(key))
-				throw std::out_of_range("key is out_of_range");
+				throw std::out_of_range("map::at");
 			else
 				return (*this)[key];
 		}
 		const mapped_type &at(const key_type &key) const
 		{
 			if (this->alreadyExists(key))
-				throw std::out_of_range("key is out_of_range");
+				throw std::out_of_range("map::at");
 			else
 				return (*this)[key];
 		}
@@ -154,7 +155,7 @@ namespace ft
 
 		iterator find(const key_type &key)
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.findNode(key);
+			node_type *result = _rbTree.findNode(key);
 
 			if (result->isNil())
 				return this->end();
@@ -162,7 +163,7 @@ namespace ft
 		}
 		const_iterator find(const key_type &key) const
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.findNode(key);
+			node_type *result = _rbTree.findNode(key);
 
 			if (result->isNil())
 				return this->end();
@@ -176,7 +177,7 @@ namespace ft
 		}
 		iterator lower_bound(const key_type &key)
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.lower_bound(key);
+			node_type *result = _rbTree.lower_bound(key);
 
 			if (result->isNil())
 				return this->end();
@@ -184,7 +185,7 @@ namespace ft
 		}
 		const_iterator lower_bound(const key_type &key) const
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.lower_bound(key);
+			node_type *result = _rbTree.lower_bound(key);
 
 			if (result->isNil())
 				return this->end();
@@ -192,7 +193,7 @@ namespace ft
 		}
 		iterator upper_bound(const key_type &key)
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.upper_bound(key);
+			node_type *result = _rbTree.upper_bound(key);
 
 			if (result->isNil())
 				return this->end();
@@ -200,7 +201,7 @@ namespace ft
 		}
 		const_iterator upper_bound(const key_type &key) const
 		{
-			rb_node<const Key, T, Cmp, Allocator> *result = _rbTree.upper_bound(key);
+			node_type *result = _rbTree.upper_bound(key);
 
 			if (result->isNil())
 				return this->end();
@@ -226,9 +227,6 @@ namespace ft
 		{
 			bool placeholder = false;
 			(void) position;
-			// if ((*position + 1).first == value.first)
-				// return this->_rbTree.insert(position.getNode(), value,
-											// placeholder);
 			return this->_rbTree.insert(value, placeholder);
 		}
 		template <typename InputIt>
