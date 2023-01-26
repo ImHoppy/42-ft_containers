@@ -7,7 +7,7 @@
 namespace ft
 {
 
-	template <typename Key, typename T, typename Cmp = std::less<Key>,
+	template <typename Key, typename T, typename Compare = less<Key>,
 			  typename Allocator = std::allocator<pair<const Key, T> > >
 	class map
 	{
@@ -18,7 +18,7 @@ namespace ft
 		typedef pair<const Key, T> value_type;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-		typedef Cmp key_compare;
+		typedef Compare key_compare;
 		typedef Allocator allocator_type;
 
 		typedef typename Allocator::reference reference;
@@ -26,13 +26,13 @@ namespace ft
 		typedef typename Allocator::pointer pointer;
 		typedef typename Allocator::const_pointer const_pointer;
 
-		typedef map_iterator<const Key, T, Cmp> iterator;
-		typedef map_iterator<const Key, T, Cmp, true> const_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, Cmp> reverse_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, Cmp, true> const_reverse_iterator;
+		typedef map_iterator<const Key, T, Compare> iterator;
+		typedef map_iterator<const Key, T, Compare, true> const_iterator;
+		typedef ft::map_reverse_iterator<const Key, T, Compare> reverse_iterator;
+		typedef ft::map_reverse_iterator<const Key, T, Compare, true> const_reverse_iterator;
 
-		typedef rb_tree<const Key, T, Cmp, Allocator> tree_type;
-		typedef rb_node<const Key, T, Cmp, Allocator> node_type;
+		typedef rb_tree<const Key, T, Compare, Allocator> tree_type;
+		typedef rb_node<const Key, T, Compare, Allocator> node_type;
 
 	public:
 		class value_compare
@@ -70,23 +70,23 @@ namespace ft
 		{
 			this->insert(first, last);
 		}
-		map(const map &other)
+		map(const map &other): _compare(Compare()), _alloc(Allocator())
 		{
-			this->_rbTree = other._rbTree;
-			this->_compare = other._compare;
-			this->_alloc = other._alloc;
+			*this = other;
 		}
 		~map()
 		{
+			clear();
 		}
 
 		map &operator=(const map &other)
 		{
-			if (this == &other)
-				return *this;
-			this->_rbTree = other._rbTree;
-			this->_compare = other._compare;
-			this->_alloc = other._alloc;
+			if (this != &other)
+			{
+				clear();
+				if (other.size() > 0)
+					this->insert(other.begin(), other.end());
+			}
 			return *this;
 		}
 
