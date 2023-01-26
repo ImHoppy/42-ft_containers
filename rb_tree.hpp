@@ -46,10 +46,8 @@ namespace ft
 		{
 			if (this != &other)
 			{
-				clear();
 				_compare = other._compare;
 				_alloc = other._alloc;
-				_root = clone(other._root);
 				_size = other._size;
 			}
 			return *this;
@@ -324,31 +322,6 @@ namespace ft
 		{
 			_alloc.destroy(&node->value);
 			_nodeAlloc.deallocate(node, 1);
-		}
-		node *clone(node *src)
-		{
-			node *result = newNode(src->value);
-
-			result->color = src->color;
-			if (src->leftChild->isNil())
-			{
-				result->leftChild = nil;
-			}
-			else
-			{
-				result->leftChild = clone(src->leftChild);
-				result->leftChild->parent = result;
-			}
-			if (src->rightChild->isNil())
-			{
-				result->rightChild = nil;
-			}
-			else
-			{
-				result->rightChild = clone(src->rightChild);
-				result->rightChild->parent = result;
-			}
-			return result;
 		}
 		void transplant(node *oldNode, node *newNode)
 		{
