@@ -296,21 +296,7 @@ namespace ft
 		}
 		friend bool operator<(const map &lhs, const map &rhs)
 		{
-			const_iterator lhs_it = lhs.begin();
-			const_iterator lhs_ite = lhs.end();
-			const_iterator rhs_it = rhs.begin();
-			const_iterator rhs_ite = rhs.end();
-
-			while (lhs_it != lhs_ite && rhs_it != rhs_ite)
-			{
-				if (lhs_it->second != rhs_it->second)
-					return lhs_it->second < rhs_it->second;
-				lhs_it++;
-				rhs_it++;
-			}
-			if (rhs_it == rhs_ite)
-				return false;
-			return true;
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		}
 		friend bool operator>(const map &lhs, const map &rhs)
 		{
@@ -318,7 +304,7 @@ namespace ft
 		}
 		friend bool operator<=(const map &lhs, const map &rhs)
 		{
-			return !(lhs > rhs);
+			return !(rhs < lhs);
 		}
 		friend bool operator>=(const map &lhs, const map &rhs)
 		{

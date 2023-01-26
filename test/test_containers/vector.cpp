@@ -159,18 +159,14 @@ void insert_test()
 
 	vector<int> anothervector(2, 400);
 	myvector.insert(it + 2, anothervector.begin(), anothervector.end());
-	print_vector_size(myvector);
 	print_vector_content(myvector);
 
 	int myarray[] = {501, 502, 503};
 	myvector.insert(myvector.begin(), myarray, myarray + 3);
-	print_vector_size(myvector);
 	print_vector_content(myvector);
 
 	const int bits[] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024};
 	::vector<int> v(bits, bits + 11);
-	print_vector_size(v);
-	print_vector_content(v);
 	v.insert(v.begin() + 3, 3);
 	print_vector_size(v);
 	print_vector_content(v);
@@ -349,10 +345,19 @@ int vector_main()
 		for (it = myvector.begin(); it < myvector.end(); it++)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
+
+		myvector.erase(myvector.begin());
+		for (it = myvector.begin(); it < myvector.end(); it++)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+
 	}
 	old();
+	std::cout << "# Vector Rezise\n";
 	resize_test();
+	std::cout << "# Vector Insert\n";
 	insert_test();
+	std::cout << "# Vector InputIterator\n";
 	input_iterator("");
 	input_iterator("1");
 	input_iterator("2 3 4");
