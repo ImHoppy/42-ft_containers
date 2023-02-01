@@ -26,7 +26,7 @@ public:
 
 private:
 
-	typedef rb_node<Key, T, Compare>			node;
+	typedef rb_node<pair<const Key, T>, Compare>			node;
 
 public:
 
@@ -47,7 +47,7 @@ public:
 	{
 		return;
 	}
-	~map_reverse_iterator( void ) { return; }
+	~map_reverse_iterator() { return; }
 
 	map_reverse_iterator &operator=( const map_reverse_iterator<const Key, T, Compare> &other )
 	{
