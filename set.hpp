@@ -2,13 +2,13 @@
 
 #include "rb_tree.hpp"
 #include "utils.hpp"
-#include "set_iterator.hpp"
-#include "set_reverse_iterator.hpp"
+#include "rb_iterator.hpp"
+#include "rb_reverse_iterator.hpp"
 #include <memory>
 
 namespace ft
 {
-	template <class T, class Compare = less<T>, class Alloc = std::allocator<pair<const T, T> > >
+	template <class T, class Compare = less<T>, class Alloc = std::allocator<T> >
 	class set
 	{
 	public:
@@ -24,13 +24,13 @@ namespace ft
 		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
 
-		typedef rb_tree<const key_type, value_type, key_compare, allocator_type> tree_type;
-		typedef rb_node<const key_type, value_type, key_compare, allocator_type> node_type;
+		typedef rb_tree<key_type, key_compare, allocator_type> tree_type;
+		typedef rb_node<key_type, key_compare, allocator_type> node_type;
 
-		typedef set_iterator<const key_type, value_type, key_compare> iterator;
-		typedef set_iterator<const key_type, value_type, key_compare, true> const_iterator;
-		typedef set_reverse_iterator<const key_type, value_type, key_compare> reverse_iterator;
-		typedef set_reverse_iterator<const key_type, value_type, key_compare, true> const_reverse_iterator;
+		typedef rb_iterator<key_type, key_compare> iterator;
+		typedef rb_iterator<key_type, key_compare, true> const_iterator;
+		typedef rb_reverse_iterator<key_type, key_compare> reverse_iterator;
+		typedef rb_reverse_iterator<key_type, key_compare, true> const_reverse_iterator;
 
 	private:
 		tree_type _rbTree;
@@ -110,7 +110,7 @@ namespace ft
 		pair<iterator, bool> insert(const value_type &val)
 		{
 			bool wasInserted = false;
-			iterator inserted = this->_rbTree.insert(pair<const int, int>(val, val), wasInserted);
+			iterator inserted = this->_rbTree.insert(val, wasInserted);
 
 			return ft::make_pair(iterator(inserted), wasInserted);
 		}
@@ -125,7 +125,7 @@ namespace ft
 			bool useless;
 			while (first != last)
 			{
-				_rbTree.insert(pair<const int, int>(*first, *first), useless);
+				_rbTree.insert(*first, useless);
 				++first;
 			}
 		}
@@ -169,13 +169,15 @@ namespace ft
 		value_compare value_comp(void) const { return _compare; }
 
 		// Operations
-		iterator find(const key_type &k)
+		iterator find(const key_type &k) const
 		{
-			return iterator(_rbTree.find(k));
+			return iterator(_rbTree.findNode(k));
 		}
 		size_type count(const key_type &k) const
 		{
-			return _rbTree.count(k);
+			if (_rbTree.findNode(k)->isNil())
+				return 0;
+			return 1;
 		}
 		iterator lower_bound(const key_type &k)
 		{
@@ -213,9 +215,6 @@ namespace ft
 		{
 			return pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
 		}
-
-		// Allocator
-		allocator_type get_allocator(void) const { return _alloc; }
 	};
 
 };
