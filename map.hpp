@@ -26,16 +26,7 @@ namespace ft
 		typedef typename Allocator::pointer pointer;
 		typedef typename Allocator::const_pointer const_pointer;
 
-		typedef map_iterator<const Key, T, Compare> iterator;
-		typedef map_iterator<const Key, T, Compare, true> const_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, Compare> reverse_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, Compare, true> const_reverse_iterator;
-
-		typedef rb_tree<const Key, T, Compare, Allocator> tree_type;
-		typedef rb_node<const Key, T, Compare, Allocator> node_type;
-
-	public:
-		class value_compare
+		class value_compare : public binary_function<value_type, value_type, bool>
 		{
 
 		public:
@@ -43,20 +34,34 @@ namespace ft
 			typedef value_type first_argument_type;
 			typedef value_type second_argument_type;
 
-		private:
+		protected:
 			key_compare comp;
 
 		public:
-			explicit value_compare(key_compare c) : comp(c)
+			value_compare(key_compare c) : comp(c)
 			{
 				return;
 			}
 
+			value_compare() : comp()
+			{
+				return;
+			}
 			bool operator()(const value_type &x, const value_type &y) const
 			{
 				return comp(x.first, y.first);
 			}
 		};
+
+
+		typedef map_iterator<const Key, T, value_compare> iterator;
+		typedef map_iterator<const Key, T, value_compare, true> const_iterator;
+		typedef ft::map_reverse_iterator<const Key, T, value_compare> reverse_iterator;
+		typedef ft::map_reverse_iterator<const Key, T, value_compare, true> const_reverse_iterator;
+
+	private:
+		typedef rb_tree<pair<const Key, T>, value_compare, Allocator> tree_type;
+		typedef rb_node<pair<const Key, T>, value_compare, Allocator> node_type;
 
 	public:
 		explicit map(const key_compare &cmp = key_compare(),
@@ -70,7 +75,7 @@ namespace ft
 		{
 			this->insert(first, last);
 		}
-		map(const map &other): _compare(Compare()), _alloc(Allocator())
+		map(const map &other) : _compare(Compare()), _alloc(Allocator())
 		{
 			*this = other;
 		}
@@ -155,7 +160,7 @@ namespace ft
 
 		iterator find(const key_type &key)
 		{
-			node_type *result = _rbTree.findNode(key);
+			node_type *result = _rbTree.findNode(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -163,7 +168,7 @@ namespace ft
 		}
 		const_iterator find(const key_type &key) const
 		{
-			node_type *result = _rbTree.findNode(key);
+			node_type *result = _rbTree.findNode(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -171,13 +176,13 @@ namespace ft
 		}
 		size_type count(const key_type &key) const
 		{
-			if (_rbTree.findNode(key)->isNil())
+			if (_rbTree.findNode(value_type(key, mapped_type()))->isNil())
 				return 0;
 			return 1;
 		}
 		iterator lower_bound(const key_type &key)
 		{
-			node_type *result = _rbTree.lower_bound(key);
+			node_type *result = _rbTree.lower_bound(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -185,7 +190,7 @@ namespace ft
 		}
 		const_iterator lower_bound(const key_type &key) const
 		{
-			node_type *result = _rbTree.lower_bound(key);
+			node_type *result = _rbTree.lower_bound(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -193,7 +198,7 @@ namespace ft
 		}
 		iterator upper_bound(const key_type &key)
 		{
-			node_type *result = _rbTree.upper_bound(key);
+			node_type *result = _rbTree.upper_bound(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -201,7 +206,7 @@ namespace ft
 		}
 		const_iterator upper_bound(const key_type &key) const
 		{
-			node_type *result = _rbTree.upper_bound(key);
+			node_type *result = _rbTree.upper_bound(value_type(key, mapped_type()));
 
 			if (result->isNil())
 				return this->end();
@@ -219,14 +224,14 @@ namespace ft
 		ft::pair<iterator, bool> insert(const value_type &value)
 		{
 			bool wasInserted = false;
-			iterator inserted = this->_rbTree.insert(value, wasInserted);
+			node_type *inserted = this->_rbTree.insert(value, wasInserted);
 
 			return ft::make_pair(iterator(inserted), wasInserted);
 		}
 		iterator insert(iterator position, const value_type &value)
 		{
 			bool placeholder = false;
-			(void) position;
+			(void)position;
 			return this->_rbTree.insert(value, placeholder);
 		}
 		template <typename InputIt>
@@ -252,7 +257,7 @@ namespace ft
 		}
 		size_type erase(const key_type &key)
 		{
-			return this->_rbTree.eraseNode(key);
+			return this->_rbTree.eraseNode(value_type(key, mapped_type()));
 		}
 
 		void clear(void)
@@ -315,10 +320,10 @@ namespace ft
 			lhs.swap(rhs);
 		}
 
-		void printTree(std::string file = "tree_visualisation.mmd") const
-		{
-			_rbTree.printTree(file);
-		}
+		// void printTree(std::string file = "tree_visualisation.mmd") const
+		// {
+		// 	_rbTree.printTree(file);
+		// }
 
 	private:
 		tree_type _rbTree;
@@ -327,7 +332,7 @@ namespace ft
 
 		bool alreadyExists(const key_type &key) const
 		{
-			return _rbTree.findNode(key)->isNil();
+			return _rbTree.findNode(value_type(key, mapped_type()))->isNil();
 		}
 	};
 

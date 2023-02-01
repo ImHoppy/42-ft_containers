@@ -27,7 +27,7 @@ public:
 
 private:
 
-	typedef rb_node<Key, T, Compare>			node;
+	typedef rb_node<pair<const Key, T>, Compare>			node;
 
 public:
 

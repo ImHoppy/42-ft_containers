@@ -155,8 +155,8 @@ void map_main() {
 		for (map<std::string, std::string>::iterator it = m2.begin(); it != m2.end(); ++it)
 			std::cout << it->first << " " << it->second << std::endl;
 		#ifndef USE_STD
-			m1.printTree("m1.mmd");
-			m2.printTree("m2.mmd");
+			// m1.printTree("m1.mmd");
+			// m2.printTree("m2.mmd");
 		#endif
 	}
 	std::cout << "# Map iterator with other containers\n";
