@@ -6,7 +6,7 @@ namespace ft
 {
 
 	template <typename T, typename Compare = less<T>, bool IsConst = false>
-	class map_reverse_iterator
+	class rb_reverse_iterator
 	{
 
 	public:
@@ -16,7 +16,7 @@ namespace ft
 		typedef std::bidirectional_iterator_tag iterator_category;
 		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
-		typedef map_iterator<value_type, Compare, IsConst> Iterator;
+		typedef rb_iterator<value_type, Compare, IsConst> Iterator;
 
 		typedef typename ft::ternaire<IsConst, value_type *, const value_type *>::type pointer;
 		typedef typename ft::ternaire<IsConst, value_type &, const value_type &>::type reference;
@@ -26,22 +26,22 @@ namespace ft
 
 	public:
 		// Member functions
-		map_reverse_iterator(node *ptr = u_nullptr, bool is_end = false) : _node(ptr), _isEnd(is_end)
+		rb_reverse_iterator(node *ptr = u_nullptr, bool is_end = false) : _node(ptr), _isEnd(is_end)
 		{
 			return;
 		}
-		explicit map_reverse_iterator(Iterator x) : _node(x.getNode()), _isEnd(x.isEnd())
+		explicit rb_reverse_iterator(Iterator x) : _node(x.getNode()), _isEnd(x.isEnd())
 		{
 			++(*this);
 			return;
 		}
-		map_reverse_iterator(const map_reverse_iterator<value_type, Compare> &other) : _node(other.getNode()), _isEnd(other.isEnd())
+		rb_reverse_iterator(const rb_reverse_iterator<value_type, Compare> &other) : _node(other.getNode()), _isEnd(other.isEnd())
 		{
 			return;
 		}
-		~map_reverse_iterator() { return; }
+		~rb_reverse_iterator() { return; }
 
-		map_reverse_iterator &operator=(const map_reverse_iterator<value_type, Compare> &other)
+		rb_reverse_iterator &operator=(const rb_reverse_iterator<value_type, Compare> &other)
 		{
 			this->_node = other._node;
 			this->_isEnd = other._isEnd;
@@ -53,7 +53,7 @@ namespace ft
 
 		Iterator base(void) const
 		{
-			map_reverse_iterator tmp(*this);
+			rb_reverse_iterator tmp(*this);
 
 			--tmp;
 			return Iterator(tmp.getNode(), tmp._isEnd);
@@ -68,7 +68,7 @@ namespace ft
 			return &(*this)._node->getValue();
 		}
 
-		map_reverse_iterator &operator++(void)
+		rb_reverse_iterator &operator++(void)
 		{
 			node *tmp = this->_node->getTreePredecessor();
 
@@ -80,7 +80,7 @@ namespace ft
 				this->_node = tmp;
 			return *this;
 		}
-		map_reverse_iterator &operator--(void)
+		rb_reverse_iterator &operator--(void)
 		{
 			node *tmp = this->_node->getTreeSuccessor();
 
@@ -92,20 +92,20 @@ namespace ft
 				this->_node = tmp;
 			return *this;
 		}
-		map_reverse_iterator operator++(int)
+		rb_reverse_iterator operator++(int)
 		{
-			map_reverse_iterator tmp(*this);
+			rb_reverse_iterator tmp(*this);
 			++(*this);
 			return tmp;
 		}
-		map_reverse_iterator operator--(int)
+		rb_reverse_iterator operator--(int)
 		{
-			map_reverse_iterator tmp(*this);
+			rb_reverse_iterator tmp(*this);
 			--(*this);
 			return tmp;
 		}
 
-		friend bool operator==(const map_reverse_iterator &lhs, const map_reverse_iterator &rhs)
+		friend bool operator==(const rb_reverse_iterator &lhs, const rb_reverse_iterator &rhs)
 		{
 			if (lhs._isEnd != rhs._isEnd)
 				return false;
@@ -114,7 +114,7 @@ namespace ft
 			else
 				return lhs._node == rhs._node;
 		}
-		friend bool operator!=(const map_reverse_iterator &lhs, const map_reverse_iterator &rhs)
+		friend bool operator!=(const rb_reverse_iterator &lhs, const rb_reverse_iterator &rhs)
 		{
 			if (lhs._isEnd != rhs._isEnd)
 				return true;
