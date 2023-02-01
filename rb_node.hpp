@@ -17,7 +17,7 @@ namespace ft
 		typedef const Key key_type;
 		typedef T mapped_type;
 		typedef pair<const Key, T> value_type;
-		typedef std::size_t size_type;
+		typedef size_t size_type;
 
 		rb_node(void) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
 		{

@@ -7,7 +7,7 @@
 namespace ft
 {
 
-template < typename Key, typename T, typename Compare = std::less<Key>,
+template < typename Key, typename T, typename Compare = less<Key>,
 		 bool IsConst = false >
 class map_iterator
 {
@@ -16,8 +16,8 @@ public:
 
 	// Member types
 	typedef std::bidirectional_iterator_tag	iterator_category;
-	typedef std::ptrdiff_t					difference_type;
-	typedef std::size_t						size_type;
+	typedef ptrdiff_t					difference_type;
+	typedef size_t						size_type;
 
 	typedef	const Key			key_type;
 	typedef	T					mapped_type;
