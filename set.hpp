@@ -213,6 +213,9 @@ namespace ft
 		{
 			return pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
 		}
+
+		// Allocator
+		allocator_type get_allocator(void) const { return _alloc; }
 	};
 
 };
