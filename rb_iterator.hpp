@@ -8,7 +8,7 @@ namespace ft
 {
 
 	template <typename T, typename Compare = less<T>, bool IsConst = false>
-	class map_iterator
+	class rb_iterator
 	{
 
 	public:
@@ -27,18 +27,18 @@ namespace ft
 
 	public:
 		// Member functions
-		map_iterator(node *ptr = u_nullptr, bool is_end = false) : _node(ptr), _isEnd(is_end)
+		rb_iterator(node *ptr = u_nullptr, bool is_end = false) : _node(ptr), _isEnd(is_end)
 		{
 			return;
 		}
 
-		map_iterator(const map_iterator<value_type, Compare> &other) : _node(other.getNode()), _isEnd(other.isEnd())
+		rb_iterator(const rb_iterator<value_type, Compare> &other) : _node(other.getNode()), _isEnd(other.isEnd())
 		{
 			return;
 		}
-		~map_iterator(void) { return; }
+		~rb_iterator(void) { return; }
 
-		map_iterator &operator=(const map_iterator<value_type, Compare> &other)
+		rb_iterator &operator=(const rb_iterator<value_type, Compare> &other)
 		{
 			this->_node = other._node;
 			this->_isEnd = other._isEnd;
@@ -51,7 +51,7 @@ namespace ft
 		reference operator*(void) const { return this->_node->getValue(); }
 		pointer operator->(void) const { return &this->_node->getValue(); }
 
-		map_iterator &operator++(void)
+		rb_iterator &operator++(void)
 		{
 			node *tmp = this->_node->getTreeSuccessor();
 
@@ -61,7 +61,7 @@ namespace ft
 				this->_node = tmp;
 			return *this;
 		}
-		map_iterator &operator--(void)
+		rb_iterator &operator--(void)
 		{
 			node *tmp = this->_node->getTreePredecessor();
 
@@ -73,20 +73,20 @@ namespace ft
 				this->_node = tmp;
 			return *this;
 		}
-		map_iterator operator++(int)
+		rb_iterator operator++(int)
 		{
-			map_iterator tmp(*this);
+			rb_iterator tmp(*this);
 			++(*this);
 			return tmp;
 		}
-		map_iterator operator--(int)
+		rb_iterator operator--(int)
 		{
-			map_iterator tmp(*this);
+			rb_iterator tmp(*this);
 			--(*this);
 			return tmp;
 		}
 
-		friend bool operator==(const map_iterator &lhs, const map_iterator &rhs)
+		friend bool operator==(const rb_iterator &lhs, const rb_iterator &rhs)
 		{
 			if (lhs._isEnd != rhs._isEnd)
 				return false;
@@ -95,7 +95,7 @@ namespace ft
 			else
 				return lhs._node == rhs._node;
 		}
-		friend bool operator!=(const map_iterator &lhs, const map_iterator &rhs)
+		friend bool operator!=(const rb_iterator &lhs, const rb_iterator &rhs)
 		{
 			if (lhs._isEnd != rhs._isEnd)
 				return true;

@@ -55,10 +55,10 @@ namespace ft
 
 	public:
 
-		typedef map_iterator<value_type, value_compare> iterator;
-		typedef map_iterator<value_type, value_compare, true> const_iterator;
-		typedef ft::map_reverse_iterator<value_type, value_compare> reverse_iterator;
-		typedef ft::map_reverse_iterator<value_type, value_compare, true> const_reverse_iterator;
+		typedef rb_iterator<value_type, value_compare> iterator;
+		typedef rb_iterator<value_type, value_compare, true> const_iterator;
+		typedef ft::rb_reverse_iterator<value_type, value_compare> reverse_iterator;
+		typedef ft::rb_reverse_iterator<value_type, value_compare, true> const_reverse_iterator;
 
 	private:
 		typedef rb_tree<value_type, value_compare, Allocator> tree_type;
