@@ -53,15 +53,16 @@ namespace ft
 			}
 		};
 
+	public:
 
-		typedef map_iterator<const Key, T, value_compare> iterator;
-		typedef map_iterator<const Key, T, value_compare, true> const_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, value_compare> reverse_iterator;
-		typedef ft::map_reverse_iterator<const Key, T, value_compare, true> const_reverse_iterator;
+		typedef map_iterator<value_type, value_compare> iterator;
+		typedef map_iterator<value_type, value_compare, true> const_iterator;
+		typedef ft::map_reverse_iterator<value_type, value_compare> reverse_iterator;
+		typedef ft::map_reverse_iterator<value_type, value_compare, true> const_reverse_iterator;
 
 	private:
-		typedef rb_tree<pair<const Key, T>, value_compare, Allocator> tree_type;
-		typedef rb_node<pair<const Key, T>, value_compare, Allocator> node_type;
+		typedef rb_tree<value_type, value_compare, Allocator> tree_type;
+		typedef rb_node<value_type, value_compare, Allocator> node_type;
 
 	public:
 		explicit map(const key_compare &cmp = key_compare(),
