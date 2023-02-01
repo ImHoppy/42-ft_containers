@@ -8,21 +8,18 @@
 namespace ft
 {
 
-	template <typename Key, typename T, typename Compare = less<Key>,
-			  typename Allocator = std::allocator<ft::pair<const Key, T> > >
+	template <typename T, typename Compare = less<T>,
+			  typename Allocator = std::allocator<T> >
 	class rb_node
 	{
 
 	public:
-		typedef const Key key_type;
-		typedef T mapped_type;
-		typedef pair<const Key, T> value_type;
+		typedef T value_type;
 		typedef size_t size_type;
 
 		rb_node(void) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
 		{
-			value.first = Key();
-			value.second = T();
+			value = T();
 		}
 		rb_node(value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
 		{
@@ -64,9 +61,6 @@ namespace ft
 
 		value_type &getValue(void) { return value; }
 		const value_type &getValue(void) const { return value; }
-		const key_type &getKey(void) const { return value.first; }
-		mapped_type &getMapped(void) { return value.second; }
-		const mapped_type &getMapped(void) const { return value.second; }
 		char getColorAsChar(void) const
 		{
 			return this->color;

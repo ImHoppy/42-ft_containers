@@ -9,20 +9,19 @@
 
 namespace ft
 {
-	template <class Key, class T, class Compare = less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
+	template <class T, class Compare = less<T>, class Allocator = std::allocator<T> >
 	class rb_tree
 	{
 	public:
-		typedef rb_node<const Key, T, Compare, Allocator> node;
-		typedef Key key_type;
-		typedef T mapped_type;
-		typedef pair<const Key, T> value_type;
+		typedef rb_node<T, Compare, Allocator> node;
+		// typedef T key_type;
+		typedef T value_type;
 		typedef Compare key_compare;
 		typedef size_t size_type;
 
 		rb_tree(void) : _root(u_nullptr),
 						_size(0),
-						_compare(Compare()),
+						_compare(),
 						_alloc(Allocator())
 		{
 			_nodeAlloc = std::allocator<node>();
@@ -71,13 +70,13 @@ namespace ft
 		}
 		node *insert(const value_type &value, bool &wasInserted)
 		{
-			node *insertionParent = getInsertionParent(value.first);
+			node *insertionParent = getInsertionParent(value);
 			return insert(insertionParent, value, wasInserted);
 		}
 		node *insert(node *insertionParent, const value_type &value, bool &wasInserted)
 		{
 			node *nodeToInsert = nil;
-			if (value.first == insertionParent->getKey() && !insertionParent->isNil())
+			if (isEqual(value, insertionParent->getValue()) && !insertionParent->isNil())
 			{
 				wasInserted = false;
 				return insertionParent;
@@ -86,7 +85,7 @@ namespace ft
 			nodeToInsert->parent = insertionParent;
 			if (insertionParent->isNil())
 				_root = nodeToInsert;
-			else if (_compare(nodeToInsert->getKey(), insertionParent->getKey()))
+			else if (_compare(nodeToInsert->getValue(), insertionParent->getValue()))
 				insertionParent->leftChild = nodeToInsert;
 			else
 				insertionParent->rightChild = nodeToInsert;
@@ -95,7 +94,7 @@ namespace ft
 			wasInserted = true;
 			return nodeToInsert;
 		}
-		size_type eraseNode(const key_type &key)
+		size_type eraseNode(const value_type &key)
 		{
 			node *nodeToDelete = findNode(key);
 			if (nodeToDelete->isNil())
@@ -144,94 +143,96 @@ namespace ft
 			--_size;
 			deleteNode(nodeToDelete);
 		}
-		node *findNode(const key_type &key)
+		node *findNode(const value_type &key)
 		{
 			return findNode(_root, key);
 		}
-		node *findNode(const key_type &key) const
+		node *findNode(const value_type &key) const
 		{
 			return findNode(_root, key);
 		}
-		node *findNode(node *nodeToSearch, const key_type &key)
+		node *findNode(node *nodeToSearch, const value_type &value)
 		{
-			if (nodeToSearch->isNil() || nodeToSearch->getKey() == key)
+			if (nodeToSearch->isNil() || isEqual(nodeToSearch->getValue(), value))
 				return nodeToSearch;
-			if (_compare(key, nodeToSearch->getKey()))
-				return findNode(nodeToSearch->leftChild, key);
-			return findNode(nodeToSearch->rightChild, key);
+			if (_compare(value, nodeToSearch->getValue()))
+				return findNode(nodeToSearch->leftChild, value);
+			return findNode(nodeToSearch->rightChild, value);
 		}
-		node *findNode(node *nodeToSearch, const key_type &key) const
+		node *findNode(node *nodeToSearch, const value_type &value) const
 		{
-			if (nodeToSearch->isNil() || nodeToSearch->getKey() == key)
+			if (nodeToSearch->isNil())
 				return nodeToSearch;
-			if (_compare(key, nodeToSearch->getKey()))
-				return findNode(nodeToSearch->leftChild, key);
-			return findNode(nodeToSearch->rightChild, key);
+			if (isEqual(value, nodeToSearch->getValue()))
+				return nodeToSearch;
+			if (_compare(value, nodeToSearch->getValue()))
+				return findNode(nodeToSearch->leftChild, value);
+			return findNode(nodeToSearch->rightChild, value);
 		}
-		node *lower_bound(const key_type &key)
+		node *lower_bound(const value_type &key)
 		{
 			return lower_bound(_root, key);
 		}
-		node *lower_bound(const key_type &key) const
+		node *lower_bound(const value_type &key) const
 		{
 			return lower_bound(_root, key);
 		}
-		node *lower_bound(node *current_node, const key_type &key)
+		node *lower_bound(node *current_node, const value_type &value)
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || key == current_node->getKey())
+			if (current_node->isNil() || isEqual(value, current_node->getValue()))
 				return current_node;
-			if (_compare(current_node->getKey(), key))
-				return lower_bound(current_node->rightChild, key);
-			tmp = lower_bound(current_node->leftChild, key);
+			if (_compare(current_node->getValue(), value))
+				return lower_bound(current_node->rightChild, value);
+			tmp = lower_bound(current_node->leftChild, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
 		}
-		node *lower_bound(node *current_node, const key_type &key) const
+		node *lower_bound(node *current_node, const value_type &value) const
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || key == current_node->getKey())
+			if (current_node->isNil() || isEqual(value, current_node->getValue()))
 				return current_node;
-			if (_compare(current_node->getKey(), key))
-				return lower_bound(current_node->rightChild, key);
-			tmp = lower_bound(current_node->leftChild, key);
+			if (_compare(current_node->getValue(), value))
+				return lower_bound(current_node->rightChild, value);
+			tmp = lower_bound(current_node->leftChild, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
 		}
-		node *upper_bound(const key_type &key)
+		node *upper_bound(const value_type &value)
 		{
-			return upper_bound(_root, key);
+			return upper_bound(_root, value);
 		}
-		node *upper_bound(const key_type &key) const
+		node *upper_bound(const value_type &value) const
 		{
-			return upper_bound(_root, key);
+			return upper_bound(_root, value);
 		}
-		node *upper_bound(node *current_node, const key_type &key)
+		node *upper_bound(node *current_node, const value_type &value)
 		{
 			node *tmp = nil;
 
 			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getKey(), key) || current_node->getKey() == key)
-				return upper_bound(current_node->rightChild, key);
-			tmp = upper_bound(current_node->leftChild, key);
+			if (_compare(current_node->getValue(), value) || isEqual(current_node->getValue(), value))
+				return upper_bound(current_node->rightChild, value);
+			tmp = upper_bound(current_node->leftChild, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
 		}
-		node *upper_bound(node *current_node, const key_type &key) const
+		node *upper_bound(node *current_node, const value_type &value) const
 		{
 			node *tmp = nil;
 
 			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getKey(), key) || current_node->getKey() == key)
-				return upper_bound(current_node->rightChild, key);
-			tmp = upper_bound(current_node->leftChild, key);
+			if (_compare(current_node->getValue(), value) || isEqual(current_node->getValue(), value))
+				return upper_bound(current_node->rightChild, value);
+			tmp = upper_bound(current_node->leftChild, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
@@ -252,20 +253,20 @@ namespace ft
 		{
 			return _root->getMax();
 		}
-		void printTree(std::string file = "tree_visualisation.mmd") const
-		{
-			std::ofstream myfile;
+		// void printTree(std::string file = "tree_visualisation.mmd") const
+		// {
+		// 	std::ofstream myfile;
 
-			myfile.open(file.c_str(), std::ios::out);
-			myfile << "flowchart TD" << std::endl;
-			myfile << "classDef RED fill:#FF0000,color:#FFFFFF;" << std::endl;
-			myfile << "classDef BLACK fill:#000000,color:#FFFFFF;" << std::endl;
-			if (_root)
-				traverseTree(this->_root, myfile);
-			else
-				myfile << "Empty tree" << std::endl;
-			myfile.close();
-		}
+		// 	myfile.open(file.c_str(), std::ios::out);
+		// 	myfile << "flowchart TD" << std::endl;
+		// 	myfile << "classDef RED fill:#FF0000,color:#FFFFFF;" << std::endl;
+		// 	myfile << "classDef BLACK fill:#000000,color:#FFFFFF;" << std::endl;
+		// 	if (_root)
+		// 		traverseTree(this->_root, myfile);
+		// 	else
+		// 		myfile << "Empty tree" << std::endl;
+		// 	myfile.close();
+		// }
 		void swap(rb_tree &other)
 		{
 			node *tmp_root = other._root;
@@ -298,7 +299,7 @@ namespace ft
 		void initNil(void)
 		{
 			// Init nil node
-			value_type nilValue = ft::make_pair(Key(), T());
+			value_type nilValue = T();
 
 			nil = newNode(nilValue);
 			nil->color = BLACK;
@@ -436,7 +437,7 @@ namespace ft
 				movedNode->rightChild = hinge;
 			hinge->parent = movedNode;
 		}
-		node *getInsertionParent(const key_type &insertKey)
+		node *getInsertionParent(const value_type &insertValue)
 		{
 			node *traversingTree = _root;
 			node *result = nil;
@@ -444,9 +445,9 @@ namespace ft
 			while (!traversingTree->isNil())
 			{
 				result = traversingTree;
-				if (_compare(insertKey, traversingTree->getKey()))
+				if (_compare(insertValue, traversingTree->getValue()))
 					traversingTree = traversingTree->leftChild;
-				else if (insertKey == traversingTree->getKey())
+				else if (isEqual(insertValue, traversingTree->getValue()))
 					return result;
 				else
 					traversingTree = traversingTree->rightChild;
@@ -506,24 +507,28 @@ namespace ft
 			}
 			_root->color = BLACK;
 		}
-		void traverseTree(node *node, std::ofstream &file) const
+		bool	isEqual(const value_type &key1, const value_type &key2) const
 		{
-			file << node << "(" << node->getKey() << " - " << node->getMapped()
-				 << ")" << std::endl;
-			file << "class " << node << " " << (node->color == RED ? "RED" : "BLACK") << ";"
-				 << std::endl;
-			if (!node->parent->isNil())
-				file << node << "-->" << node->parent << std::endl;
-			if (!node->leftChild->isNil())
-			{
-				file << node << "-.->" << node->leftChild << std::endl;
-				traverseTree(node->leftChild, file);
-			}
-			if (!node->rightChild->isNil())
-			{
-				file << node << "==>" << node->rightChild << std::endl;
-				traverseTree(node->rightChild, file);
-			}
+			return _compare(key1, key2) == 0 && _compare(key2, key1) == 0;
 		}
+		// void traverseTree(node *node, std::ofstream &file) const
+		// {
+		// 	file << node << "(" << node->getValue() << " - " << node->getMapped()
+		// 		 << ")" << std::endl;
+		// 	file << "class " << node << " " << (node->color == RED ? "RED" : "BLACK") << ";"
+		// 		 << std::endl;
+		// 	if (!node->parent->isNil())
+		// 		file << node << "-->" << node->parent << std::endl;
+		// 	if (!node->leftChild->isNil())
+		// 	{
+		// 		file << node << "-.->" << node->leftChild << std::endl;
+		// 		traverseTree(node->leftChild, file);
+		// 	}
+		// 	if (!node->rightChild->isNil())
+		// 	{
+		// 		file << node << "==>" << node->rightChild << std::endl;
+		// 		traverseTree(node->rightChild, file);
+		// 	}
+		// }
 	};
 }
