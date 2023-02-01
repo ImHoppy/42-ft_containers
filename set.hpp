@@ -2,8 +2,8 @@
 
 #include "rb_tree.hpp"
 #include "utils.hpp"
-#include "map_iterator.hpp"
-#include "map_reverse_iterator.hpp"
+#include "set_iterator.hpp"
+#include "set_reverse_iterator.hpp"
 #include <memory>
 
 namespace ft
@@ -27,10 +27,10 @@ namespace ft
 		typedef rb_tree<const key_type, value_type, key_compare, allocator_type> tree_type;
 		typedef rb_node<const key_type, value_type, key_compare, allocator_type> node_type;
 
-		typedef map_iterator<const key_type, value_type, key_compare> iterator;
-		typedef map_iterator<const key_type, value_type, key_compare, true> const_iterator;
-		typedef map_reverse_iterator<const key_type, value_type, key_compare> reverse_iterator;
-		typedef map_reverse_iterator<const key_type, value_type, key_compare, true> const_reverse_iterator;
+		typedef set_iterator<const key_type, value_type, key_compare> iterator;
+		typedef set_iterator<const key_type, value_type, key_compare, true> const_iterator;
+		typedef set_reverse_iterator<const key_type, value_type, key_compare> reverse_iterator;
+		typedef set_reverse_iterator<const key_type, value_type, key_compare, true> const_reverse_iterator;
 
 	private:
 		tree_type _rbTree;
@@ -110,7 +110,7 @@ namespace ft
 		pair<iterator, bool> insert(const value_type &val)
 		{
 			bool wasInserted = false;
-			iterator inserted = this->_rbTree.insert(val, wasInserted);
+			iterator inserted = this->_rbTree.insert(pair<const int, int>(val, val), wasInserted);
 
 			return ft::make_pair(iterator(inserted), wasInserted);
 		}
@@ -125,7 +125,7 @@ namespace ft
 			bool useless;
 			while (first != last)
 			{
-				_rbTree.insert(*first, useless);
+				_rbTree.insert(pair<const int, int>(*first, *first), useless);
 				++first;
 			}
 		}
@@ -177,6 +177,20 @@ namespace ft
 		{
 			return _rbTree.count(k);
 		}
+		iterator lower_bound(const key_type &k)
+		{
+			node_type *node = _rbTree.lower_bound(k);
+			if (node->isNil())
+				return end();
+			return iterator(node);
+		}
+		iterator upper_bound(const key_type &k)
+		{
+			node_type *node = _rbTree.upper_bound(k);
+			if (node->isNil())
+				return end();
+			return iterator(node);
+		}
 		const_iterator lower_bound(const key_type &k) const
 		{
 			node_type *node = _rbTree.lower_bound(k);
@@ -190,6 +204,10 @@ namespace ft
 			if (node->isNil())
 				return end();
 			return const_iterator(node);
+		}
+		pair<iterator, iterator> equal_range(const key_type &k)
+		{
+			return pair<iterator, iterator>(lower_bound(k), upper_bound(k));
 		}
 		pair<const_iterator, const_iterator> equal_range(const key_type &k) const
 		{
