@@ -61,10 +61,7 @@ namespace ft
 
 		value_type &getValue(void) { return value; }
 		const value_type &getValue(void) const { return value; }
-		char getColorAsChar(void) const
-		{
-			return this->color;
-		}
+		char getColorAsChar(void) const { return color; }
 
 		rb_node *getMin(void)
 		{

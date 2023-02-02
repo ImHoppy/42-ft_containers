@@ -13,11 +13,11 @@ namespace ft
 	class rb_tree
 	{
 	public:
-		typedef rb_node<T, Compare, Allocator> node;
-		// typedef T key_type;
 		typedef T value_type;
 		typedef Compare key_compare;
 		typedef size_t size_type;
+
+		typedef rb_node<value_type, Compare, Allocator> node;
 
 		rb_tree(void) : _root(u_nullptr),
 						_size(0),
