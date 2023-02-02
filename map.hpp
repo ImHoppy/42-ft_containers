@@ -8,7 +8,7 @@ namespace ft
 {
 
 	template <typename Key, typename T, typename Compare = less<Key>,
-			  typename Allocator = std::allocator<pair<const Key, T> > >
+			  typename Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{
 
@@ -19,12 +19,12 @@ namespace ft
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
 		typedef Compare key_compare;
-		typedef Allocator allocator_type;
+		typedef Alloc allocator_type;
 
-		typedef typename Allocator::reference reference;
-		typedef typename Allocator::const_reference const_reference;
-		typedef typename Allocator::pointer pointer;
-		typedef typename Allocator::const_pointer const_pointer;
+		typedef typename allocator_type::reference reference;
+		typedef typename allocator_type::const_reference const_reference;
+		typedef typename allocator_type::pointer pointer;
+		typedef typename allocator_type::const_pointer const_pointer;
 
 		class value_compare : public binary_function<value_type, value_type, bool>
 		{
@@ -61,22 +61,22 @@ namespace ft
 		typedef ft::rb_reverse_iterator<value_type, value_compare, true> const_reverse_iterator;
 
 	private:
-		typedef rb_tree<value_type, value_compare, Allocator> tree_type;
-		typedef rb_node<value_type, value_compare, Allocator> node_type;
+		typedef rb_tree<value_type, value_compare, allocator_type> tree_type;
+		typedef rb_node<value_type, value_compare> node_type;
 
 	public:
 		explicit map(const key_compare &cmp = key_compare(),
-					 const Allocator &alloc = Allocator()) : _compare(cmp), _alloc(alloc)
+					 const allocator_type &alloc = allocator_type()) : _compare(cmp), _alloc(alloc)
 		{
 			return;
 		}
 		template <typename InputIt>
 		map(InputIt first, InputIt last, const key_compare &cmp = key_compare(),
-			const Allocator &alloc = Allocator()) : _compare(cmp), _alloc(alloc)
+			const allocator_type &alloc = allocator_type()) : _compare(cmp), _alloc(alloc)
 		{
 			this->insert(first, last);
 		}
-		map(const map &other) : _compare(Compare()), _alloc(Allocator())
+		map(const map &other) : _compare(Compare()), _alloc(allocator_type())
 		{
 			*this = other;
 		}

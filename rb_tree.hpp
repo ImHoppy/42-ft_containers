@@ -9,7 +9,7 @@
 
 namespace ft
 {
-	template <class T, class Compare = less<T>, class Allocator = std::allocator<T> >
+	template <class T, class Compare = less<T>, class Alloc = std::allocator<T> >
 	class rb_tree
 	{
 	public:
@@ -17,21 +17,23 @@ namespace ft
 		typedef Compare key_compare;
 		typedef size_t size_type;
 
-		typedef rb_node<value_type, Compare, Allocator> node;
+		typedef rb_node<value_type, key_compare> node;
+		typedef typename Alloc::template rebind<node>::other nodeAlloc;
+		typedef Alloc valueAlloc;
 
 		rb_tree(void) : _root(u_nullptr),
 						_size(0),
 						_compare(),
-						_alloc(Allocator())
+						_alloc(valueAlloc())
 		{
-			_nodeAlloc = std::allocator<node>();
+			_nodeAlloc = nodeAlloc();
 
 			initNil();
 			this->_root = this->nil;
 		}
 		rb_tree(const rb_tree &other) : _nodeAlloc(other._nodeAlloc)
 		{
-			_nodeAlloc = std::allocator<node>();
+			_nodeAlloc = nodeAlloc();
 			initNil();
 			*this = other;
 		}
@@ -272,34 +274,37 @@ namespace ft
 			node *tmp_root = other._root;
 			node *tmp_nil = other.nil;
 			size_type tmp_size = other._size;
-			Compare tmp_compare = other._compare;
-			Allocator tmp_alloc = other._alloc;
+			key_compare tmp_compare = other._compare;
+			valueAlloc tmp_alloc = other._alloc;
+			nodeAlloc tmp_nodeAlloc = other._nodeAlloc;
 
 			other._root = this->_root;
 			other.nil = this->nil;
 			other._size = this->_size;
 			other._compare = this->_compare;
 			other._alloc = this->_alloc;
+			other._nodeAlloc = this->_nodeAlloc;
 
 			this->_root = tmp_root;
 			this->nil = tmp_nil;
 			this->_size = tmp_size;
 			this->_compare = tmp_compare;
 			this->_alloc = tmp_alloc;
+			this->_nodeAlloc = tmp_nodeAlloc;
 		}
 
 	private:
 		node *_root;
 		node *nil;
 		size_type _size;
-		Compare _compare;
-		Allocator _alloc;
-		std::allocator<node> _nodeAlloc;
+		key_compare _compare;
+		valueAlloc _alloc;
+		nodeAlloc _nodeAlloc;
 
 		void initNil(void)
 		{
 			// Init nil node
-			value_type nilValue = T();
+			value_type nilValue = value_type();
 
 			nil = newNode(nilValue);
 			nil->color = BLACK;
@@ -310,18 +315,19 @@ namespace ft
 
 		node *newNode(const value_type &value)
 		{
-			node *newNode = _nodeAlloc.allocate(1);
+			node *new_node = _nodeAlloc.allocate(1);
 
-			_alloc.construct(&newNode->value, value);
-			newNode->leftChild = nil;
-			newNode->rightChild = nil;
-			newNode->parent = nil;
-			newNode->color = RED;
-			return newNode;
+			_nodeAlloc.construct(new_node, node(value));
+			// _alloc.construct(newNode->value, value);
+			new_node->leftChild = nil;
+			new_node->rightChild = nil;
+			new_node->parent = nil;
+			new_node->color = RED;
+			return new_node;
 		}
 		void deleteNode(node *node)
 		{
-			_alloc.destroy(&node->value);
+			_nodeAlloc.destroy(node);
 			_nodeAlloc.deallocate(node, 1);
 		}
 		void transplant(node *oldNode, node *newNode)

@@ -8,8 +8,7 @@
 namespace ft
 {
 
-	template <typename T, typename Compare = less<T>,
-			  typename Allocator = std::allocator<T> >
+	template <typename T, typename Compare = less<T> >
 	class rb_node
 	{
 
@@ -19,7 +18,7 @@ namespace ft
 
 		rb_node(void) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
 		{
-			value = T();
+			value = value_type();
 		}
 		rb_node(value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
 		{

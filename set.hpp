@@ -6,6 +6,9 @@
 #include "rb_reverse_iterator.hpp"
 #include <memory>
 
+// typedef int T;
+// typedef ft::less<T> Compare;
+// typedef std::allocator<T> Alloc;
 namespace ft
 {
 	template <class T, class Compare = less<T>, class Alloc = std::allocator<T> >
@@ -24,13 +27,15 @@ namespace ft
 		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
 
-		typedef rb_tree<key_type, key_compare, allocator_type> tree_type;
-		typedef rb_node<key_type, key_compare, allocator_type> node_type;
+	private:
+		typedef rb_tree<const key_type, key_compare, allocator_type> tree_type;
+		typedef rb_node<const key_type, key_compare> node_type;
 
-		typedef rb_iterator<key_type, key_compare> iterator;
-		typedef rb_iterator<key_type, key_compare, true> const_iterator;
-		typedef rb_reverse_iterator<key_type, key_compare> reverse_iterator;
-		typedef rb_reverse_iterator<key_type, key_compare, true> const_reverse_iterator;
+	public:
+		typedef rb_iterator<const key_type, key_compare> iterator;
+		typedef rb_iterator<const key_type, key_compare, true> const_iterator;
+		typedef rb_reverse_iterator<const key_type, key_compare> reverse_iterator;
+		typedef rb_reverse_iterator<const key_type, key_compare, true> const_reverse_iterator;
 
 	private:
 		tree_type _rbTree;
@@ -100,7 +105,7 @@ namespace ft
 		{
 			return const_reverse_iterator(_rbTree.treeMinimum(), true);
 		}
-		
+
 		// Capacity
 		bool empty(void) const { return _rbTree.size() == 0; }
 		size_type size(void) const { return _rbTree.size(); }
@@ -149,10 +154,10 @@ namespace ft
 
 			_alloc = other._alloc;
 			_compare = other._compare;
-			
+
 			other._alloc = tmp_Alloc;
 			other._compare = tmp_Comp;
-			
+
 			_rbTree.swap(other._rbTree);
 		}
 		void clear(void)
