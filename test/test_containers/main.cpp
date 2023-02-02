@@ -1,11 +1,9 @@
 #include <cstdlib>
 
 void vector_main();
-void list_main() {};
 void map_main();
 void stack_main();
-void queue_main() {};
-void set_main() {};
+void set_main();
 void main_type_traits();
 
 int	main(int ac, char **av)
