@@ -215,6 +215,41 @@ namespace ft
 		{
 			return pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k));
 		}
+
+		// Allocator
+		allocator_type get_allocator(void) const { return _alloc; }
+
+		// Relational operators
+		friend bool operator==(const set &lhs, const set &rhs)
+		{
+			if (lhs.size() != rhs.size())
+				return false;
+			return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		}
+		friend bool operator!=(const set &lhs, const set &rhs)
+		{
+			return !(lhs == rhs);
+		}
+		friend bool operator<(const set &lhs, const set &rhs)
+		{
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		}
+		friend bool operator>(const set &lhs, const set &rhs)
+		{
+			return rhs < lhs;
+		}
+		friend bool operator<=(const set &lhs, const set &rhs)
+		{
+			return !(rhs < lhs);
+		}
+		friend bool operator>=(const set &lhs, const set &rhs)
+		{
+			return !(lhs < rhs);
+		}
+		friend void swap(set &rhs, set &lhs)
+		{
+			lhs.swap(rhs);
+		}
 	};
 
 };
