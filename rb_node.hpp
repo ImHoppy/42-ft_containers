@@ -20,7 +20,7 @@ namespace ft
 		{
 			value = value_type();
 		}
-		rb_node(value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
+		rb_node(const value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
 		{
 			return;
 		}
