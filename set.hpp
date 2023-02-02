@@ -33,9 +33,9 @@ namespace ft
 
 	public:
 		typedef rb_iterator<const key_type, key_compare> iterator;
-		typedef rb_iterator<const key_type, key_compare, true> const_iterator;
+		typedef rb_iterator<const key_type, key_compare> const_iterator;
 		typedef rb_reverse_iterator<const key_type, key_compare> reverse_iterator;
-		typedef rb_reverse_iterator<const key_type, key_compare, true> const_reverse_iterator;
+		typedef rb_reverse_iterator<const key_type, key_compare> const_reverse_iterator;
 
 	private:
 		tree_type _rbTree;
