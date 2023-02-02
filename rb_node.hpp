@@ -50,7 +50,7 @@ namespace ft
 		{
 			return this->parent->rightChild == this;
 		}
-		rb_node *getChild(int side)
+		rb_node *getChild(Side side)
 		{
 			if (side == LEFT)
 				return this->leftChild;

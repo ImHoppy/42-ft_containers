@@ -107,14 +107,14 @@ namespace ft
 		size_type max_size(void) const { return _rbTree.max_size(); }
 
 		// Modifiers
-		pair<iterator, bool> insert(const value_type &val)
+		pair<iterator, bool> insert(const key_type &val)
 		{
 			bool wasInserted = false;
 			iterator inserted = this->_rbTree.insert(val, wasInserted);
 
-			return ft::make_pair(iterator(inserted), wasInserted);
+			return ft::make_pair(inserted, wasInserted);
 		}
-		iterator insert(iterator position, const value_type &val)
+		iterator insert(iterator position, const key_type &val)
 		{
 			(void)position;
 			return insert(val).first;
@@ -140,11 +140,7 @@ namespace ft
 		void erase(iterator first, iterator last)
 		{
 			while (first != last)
-			{
-				iterator tmp = first;
-				++first;
-				_rbTree.eraseNode(tmp.getNode());
-			}
+				_rbTree.eraseNode((first++).getNode());
 		}
 		void swap(set &other)
 		{
