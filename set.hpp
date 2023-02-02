@@ -165,9 +165,19 @@ namespace ft
 		value_compare value_comp(void) const { return _compare; }
 
 		// Operations
-		iterator find(const key_type &k) const
+		iterator find(const key_type &k)
 		{
-			return iterator(_rbTree.findNode(k));
+			node_type *node = _rbTree.findNode(k);
+			if (node->isNil())
+				return end();
+			return iterator(node);
+		}
+		const_iterator find(const key_type &k) const
+		{
+			node_type *node = _rbTree.findNode(k);
+			if (node->isNil())
+				return end();
+			return const_iterator(node);
 		}
 		size_type count(const key_type &k) const
 		{
