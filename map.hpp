@@ -100,14 +100,14 @@ namespace ft
 		}
 		mapped_type &at(const key_type &key)
 		{
-			if (this->alreadyExists(key))
+			if (_alreadyExists(key))
 				throw std::out_of_range("map::at");
 			else
 				return (*this)[key];
 		}
 		const mapped_type &at(const key_type &key) const
 		{
-			if (this->alreadyExists(key))
+			if (_alreadyExists(key))
 				throw std::out_of_range("map::at");
 			else
 				return (*this)[key];
@@ -329,7 +329,7 @@ namespace ft
 		key_compare _compare;
 		allocator_type _alloc;
 
-		bool alreadyExists(const key_type &key) const
+		bool _alreadyExists(const key_type &key) const
 		{
 			return _rbTree.findNode(value_type(key, mapped_type()))->isNil();
 		}

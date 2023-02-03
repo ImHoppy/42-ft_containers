@@ -378,12 +378,14 @@ namespace ft
 
 		iterator erase(iterator position)
 		{
-			pointer tmp = &(*position);
-			_allocator.destroy(tmp);
-			for (pointer it = tmp; it != _finish - 1; ++it)
-				*it = *(it + 1);
+			size_type pos = ft::distance(begin(), position);
+			for (size_type i = pos; i < size() - 1; i++)
+			{
+				_start[i] = _start[i + 1];
+			}
+			_allocator.destroy(&_start[size() - 1]);
 			--_finish;
-			return iterator(tmp);
+			return begin() + pos;
 		}
 		iterator erase(iterator first, iterator last)
 		{

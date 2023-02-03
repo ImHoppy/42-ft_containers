@@ -4,11 +4,9 @@
 #include "utils.hpp"
 #include "rb_iterator.hpp"
 #include "rb_reverse_iterator.hpp"
+#include "type_traits.hpp"
 #include <memory>
 
-// typedef int T;
-// typedef ft::less<T> Compare;
-// typedef std::allocator<T> Alloc;
 namespace ft
 {
 	template <class T, class Compare = less<T>, class Alloc = std::allocator<T> >
@@ -54,7 +52,7 @@ namespace ft
 		}
 
 		set(const set &other)
-			: _compare(Compare()), _alloc(allocator_type())
+			: _rbTree(other._compare), _compare(other._compare), _alloc(other._alloc)
 		{
 			*this = other;
 		}
@@ -125,7 +123,7 @@ namespace ft
 			return insert(val).first;
 		}
 		template <class InputIterator>
-		void insert(InputIterator first, InputIterator last)
+		void insert(InputIterator first, InputIterator last, typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type* = 0)
 		{
 			bool useless;
 			while (first != last)
