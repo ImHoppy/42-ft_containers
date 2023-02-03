@@ -28,19 +28,19 @@ namespace ft
 		{
 			_nodeAlloc = nodeAlloc();
 
-			initNil();
+			_initNil();
 			this->_root = this->nil;
 		}
 		rb_tree(const rb_tree &other) : _nodeAlloc(other._nodeAlloc)
 		{
 			_nodeAlloc = nodeAlloc();
-			initNil();
+			_initNil();
 			*this = other;
 		}
 		~rb_tree()
 		{
 			clear();
-			deleteNode(nil);
+			_deleteNode(nil);
 			nil = u_nullptr;
 		}
 		rb_tree &operator=(const rb_tree &other)
@@ -59,31 +59,31 @@ namespace ft
 		void clear(void)
 		{
 			if (!_root->isNil())
-				clearNodes(_root);
+				_clearNodes(_root);
 			_root = nil;
 		}
 		void rotateLeft(node *hinge)
 		{
-			rotateSide(hinge, LEFT);
+			_rotateSide(hinge, LEFT);
 		}
 		void rotateRight(node *hinge)
 		{
-			rotateSide(hinge, RIGHT);
+			_rotateSide(hinge, RIGHT);
 		}
 		node *insert(const value_type &value, bool &wasInserted)
 		{
-			node *insertionParent = getInsertionParent(value);
+			node *insertionParent = _getInsertionParent(value);
 			return insert(insertionParent, value, wasInserted);
 		}
 		node *insert(node *insertionParent, const value_type &value, bool &wasInserted)
 		{
 			node *nodeToInsert = nil;
-			if (isEqual(value, insertionParent->getValue()) && !insertionParent->isNil())
+			if (_isEqual(value, insertionParent->getValue()) && !insertionParent->isNil())
 			{
 				wasInserted = false;
 				return insertionParent;
 			}
-			nodeToInsert = newNode(value);
+			nodeToInsert = _newNode(value);
 			nodeToInsert->parent = insertionParent;
 			if (insertionParent->isNil())
 				_root = nodeToInsert;
@@ -91,7 +91,7 @@ namespace ft
 				insertionParent->leftChild = nodeToInsert;
 			else
 				insertionParent->rightChild = nodeToInsert;
-			insertFixup(nodeToInsert);
+			_insertFixup(nodeToInsert);
 			++_size;
 			wasInserted = true;
 			return nodeToInsert;
@@ -113,12 +113,12 @@ namespace ft
 			if (nodeToDelete->leftChild->isNil())
 			{
 				nodeToFixup = nodeToDelete->rightChild;
-				transplant(nodeToDelete, nodeToDelete->rightChild);
+				_transplant(nodeToDelete, nodeToDelete->rightChild);
 			}
 			else if (nodeToDelete->rightChild->isNil())
 			{
 				nodeToFixup = nodeToDelete->leftChild;
-				transplant(nodeToDelete, nodeToDelete->leftChild);
+				_transplant(nodeToDelete, nodeToDelete->leftChild);
 			}
 			else
 			{
@@ -129,21 +129,21 @@ namespace ft
 					nodeToFixup->parent = nodeToReplace;
 				else
 				{
-					transplant(nodeToReplace, nodeToReplace->rightChild);
+					_transplant(nodeToReplace, nodeToReplace->rightChild);
 					nodeToReplace->rightChild = nodeToDelete->rightChild;
 					if (!nodeToReplace->rightChild->isNil())
 						nodeToReplace->rightChild->parent = nodeToReplace;
 				}
-				transplant(nodeToDelete, nodeToReplace);
+				_transplant(nodeToDelete, nodeToReplace);
 				nodeToReplace->leftChild = nodeToDelete->leftChild;
 				if (!nodeToReplace->leftChild->isNil())
 					nodeToReplace->leftChild->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
 			if (nodeToReplaceOriginalColor == BLACK)
-				deleteFixup(nodeToFixup);
+				_deleteFixup(nodeToFixup);
 			--_size;
-			deleteNode(nodeToDelete);
+			_deleteNode(nodeToDelete);
 		}
 		node *findNode(const value_type &key)
 		{
@@ -155,7 +155,7 @@ namespace ft
 		}
 		node *findNode(node *nodeToSearch, const value_type &value)
 		{
-			if (nodeToSearch->isNil() || isEqual(nodeToSearch->getValue(), value))
+			if (nodeToSearch->isNil() || _isEqual(nodeToSearch->getValue(), value))
 				return nodeToSearch;
 			if (_compare(value, nodeToSearch->getValue()))
 				return findNode(nodeToSearch->leftChild, value);
@@ -163,9 +163,7 @@ namespace ft
 		}
 		node *findNode(node *nodeToSearch, const value_type &value) const
 		{
-			if (nodeToSearch->isNil())
-				return nodeToSearch;
-			if (isEqual(value, nodeToSearch->getValue()))
+			if (nodeToSearch->isNil() || _isEqual(nodeToSearch->getValue(), value))
 				return nodeToSearch;
 			if (_compare(value, nodeToSearch->getValue()))
 				return findNode(nodeToSearch->leftChild, value);
@@ -183,7 +181,7 @@ namespace ft
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || isEqual(value, current_node->getValue()))
+			if (current_node->isNil() || _isEqual(value, current_node->getValue()))
 				return current_node;
 			if (_compare(current_node->getValue(), value))
 				return lower_bound(current_node->rightChild, value);
@@ -196,7 +194,7 @@ namespace ft
 		{
 			node *tmp = nil;
 
-			if (current_node->isNil() || isEqual(value, current_node->getValue()))
+			if (current_node->isNil() || _isEqual(value, current_node->getValue()))
 				return current_node;
 			if (_compare(current_node->getValue(), value))
 				return lower_bound(current_node->rightChild, value);
@@ -219,7 +217,7 @@ namespace ft
 
 			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getValue(), value) || isEqual(current_node->getValue(), value))
+			if (_compare(current_node->getValue(), value) || _isEqual(current_node->getValue(), value))
 				return upper_bound(current_node->rightChild, value);
 			tmp = upper_bound(current_node->leftChild, value);
 			if (tmp->isNil())
@@ -232,7 +230,7 @@ namespace ft
 
 			if (current_node->isNil())
 				return current_node;
-			if (_compare(current_node->getValue(), value) || isEqual(current_node->getValue(), value))
+			if (_compare(current_node->getValue(), value) || _isEqual(current_node->getValue(), value))
 				return upper_bound(current_node->rightChild, value);
 			tmp = upper_bound(current_node->leftChild, value);
 			if (tmp->isNil())
@@ -301,19 +299,19 @@ namespace ft
 		valueAlloc _alloc;
 		nodeAlloc _nodeAlloc;
 
-		void initNil(void)
+		void _initNil(void)
 		{
 			// Init nil node
 			value_type nilValue = value_type();
 
-			nil = newNode(nilValue);
+			nil = _newNode(nilValue);
 			nil->color = BLACK;
 			nil->parent = nil;
 			nil->leftChild = nil;
 			nil->rightChild = nil;
 		}
 
-		node *newNode(const value_type &value)
+		node *_newNode(const value_type &value)
 		{
 			node *new_node = _nodeAlloc.allocate(1);
 
@@ -325,12 +323,12 @@ namespace ft
 			new_node->color = RED;
 			return new_node;
 		}
-		void deleteNode(node *node)
+		void _deleteNode(node *node)
 		{
 			_nodeAlloc.destroy(node);
 			_nodeAlloc.deallocate(node, 1);
 		}
-		void transplant(node *oldNode, node *newNode)
+		void _transplant(node *oldNode, node *newNode)
 		{
 			if (oldNode->parent->isNil())
 				_root = newNode;
@@ -341,7 +339,7 @@ namespace ft
 			if (!newNode->isNil())
 				newNode->parent = oldNode->parent;
 		}
-		void deleteFixup(node *x)
+		void _deleteFixup(node *x)
 		{
 			node *w = nil;
 
@@ -412,16 +410,16 @@ namespace ft
 			}
 			x->color = BLACK;
 		}
-		void clearNodes(node *nodeToDelete)
+		void _clearNodes(node *nodeToDelete)
 		{
 			if (!nodeToDelete->leftChild->isNil())
-				clearNodes(nodeToDelete->leftChild);
+				_clearNodes(nodeToDelete->leftChild);
 			if (!nodeToDelete->rightChild->isNil())
-				clearNodes(nodeToDelete->rightChild);
-			deleteNode(nodeToDelete);
+				_clearNodes(nodeToDelete->rightChild);
+			_deleteNode(nodeToDelete);
 			--_size;
 		}
-		void rotateSide(node *hinge, Side side)
+		void _rotateSide(node *hinge, Side side)
 		{
 			node *movedNode = hinge->getChild(side == LEFT ? RIGHT : LEFT);
 			if (side == LEFT)
@@ -443,7 +441,7 @@ namespace ft
 				movedNode->rightChild = hinge;
 			hinge->parent = movedNode;
 		}
-		node *getInsertionParent(const value_type &insertValue)
+		node *_getInsertionParent(const value_type &insertValue)
 		{
 			node *traversingTree = _root;
 			node *result = nil;
@@ -453,14 +451,14 @@ namespace ft
 				result = traversingTree;
 				if (_compare(insertValue, traversingTree->getValue()))
 					traversingTree = traversingTree->leftChild;
-				else if (isEqual(insertValue, traversingTree->getValue()))
+				else if (_isEqual(insertValue, traversingTree->getValue()))
 					return result;
 				else
 					traversingTree = traversingTree->rightChild;
 			}
 			return result;
 		}
-		void insertFixup(node *lastInsertedNode)
+		void _insertFixup(node *lastInsertedNode)
 		{
 			node *tmp;
 
@@ -513,9 +511,9 @@ namespace ft
 			}
 			_root->color = BLACK;
 		}
-		bool isEqual(const value_type &key1, const value_type &key2) const
+		bool _isEqual(const value_type &key1, const value_type &key2) const
 		{
-			return _compare(key1, key2) == 0 && _compare(key2, key1) == 0;
+			return !_compare(key1, key2) && !_compare(key2, key1);
 		}
 		// void traverseTree(node *node, std::ofstream &file) const
 		// {
