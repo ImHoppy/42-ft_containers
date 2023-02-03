@@ -21,17 +21,24 @@ namespace ft
 		typedef typename Alloc::template rebind<node>::other nodeAlloc;
 		typedef Alloc valueAlloc;
 
-		rb_tree(void) : _root(u_nullptr),
-						_size(0),
-						_compare(),
-						_alloc(valueAlloc())
+		rb_tree(void)
+			: _root(u_nullptr), _size(0), _compare(), _alloc(valueAlloc())
 		{
 			_nodeAlloc = nodeAlloc();
 
 			_initNil();
 			this->_root = this->nil;
 		}
-		rb_tree(const rb_tree &other) : _nodeAlloc(other._nodeAlloc)
+		rb_tree(const key_compare &comp, const valueAlloc &alloc = valueAlloc())
+			: _root(u_nullptr), _size(0), _compare(comp), _alloc(alloc)
+		{
+			_nodeAlloc = alloc;
+
+			_initNil();
+			this->_root = this->nil;
+		}
+		rb_tree(const rb_tree &other)
+			: _nodeAlloc(other._nodeAlloc)
 		{
 			_nodeAlloc = nodeAlloc();
 			_initNil();

@@ -3,6 +3,7 @@
 #include "rb_tree.hpp"
 #include "rb_iterator.hpp"
 #include "rb_reverse_iterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft
 {
@@ -28,6 +29,7 @@ namespace ft
 
 		class value_compare : public binary_function<value_type, value_type, bool>
 		{
+			friend class map;
 
 		public:
 			typedef bool result_type;
@@ -37,16 +39,12 @@ namespace ft
 		protected:
 			key_compare comp;
 
-		public:
 			value_compare(key_compare c) : comp(c)
 			{
 				return;
 			}
 
-			value_compare() : comp()
-			{
-				return;
-			}
+		public:
 			bool operator()(const value_type &x, const value_type &y) const
 			{
 				return comp(x.first, y.first);
@@ -64,18 +62,19 @@ namespace ft
 		typedef rb_node<value_type, value_compare> node_type;
 
 	public:
-		explicit map(const key_compare &cmp = key_compare(),
-					 const allocator_type &alloc = allocator_type()) : _compare(cmp), _alloc(alloc)
+		explicit map(const key_compare &cmp = key_compare(), const allocator_type &alloc = allocator_type())
+			: _rbTree(value_compare(cmp)), _compare(cmp), _alloc(alloc)
 		{
 			return;
 		}
 		template <typename InputIt>
-		map(InputIt first, InputIt last, const key_compare &cmp = key_compare(),
-			const allocator_type &alloc = allocator_type()) : _compare(cmp), _alloc(alloc)
+		map(InputIt first, InputIt last, const key_compare &cmp = key_compare(), const allocator_type &alloc = allocator_type())
+			: _rbTree(value_compare(cmp)), _compare(cmp), _alloc(alloc)
 		{
 			this->insert(first, last);
 		}
-		map(const map &other) : _compare(Compare()), _alloc(allocator_type())
+		map(const map &other)
+			: _rbTree(value_compare(other._compare)), _compare(other._compare), _alloc(other._alloc)
 		{
 			*this = other;
 		}
@@ -235,7 +234,7 @@ namespace ft
 			return this->_rbTree.insert(value, placeholder);
 		}
 		template <typename InputIt>
-		void insert(InputIt first, InputIt last)
+		void insert(InputIt first, InputIt last, typename enable_if<!is_integral<InputIt>::value, InputIt>::type* = 0)
 		{
 			bool useless;
 
