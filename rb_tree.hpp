@@ -19,20 +19,27 @@ namespace ft
 
 		typedef rb_node<value_type, key_compare> node;
 		typedef typename Alloc::template rebind<node>::other nodeAlloc;
-		typedef Alloc valueAlloc;
 
+	private:
+		node *_root;
+		node *nil;
+		size_type _size;
+		key_compare _compare;
+		nodeAlloc _nodeAlloc;
+
+	public:
 		rb_tree(void)
-			: _root(u_nullptr), _size(0), _compare(), _alloc(valueAlloc())
+			: _root(u_nullptr), _size(0), _compare()
 		{
 			_nodeAlloc = nodeAlloc();
 
 			_initNil();
 			this->_root = this->nil;
 		}
-		rb_tree(const key_compare &comp, const valueAlloc &alloc = valueAlloc())
-			: _root(u_nullptr), _size(0), _compare(comp), _alloc(alloc)
+		rb_tree(const key_compare &comp)
+			: _root(u_nullptr), _size(0), _compare(comp)
 		{
-			_nodeAlloc = alloc;
+			_nodeAlloc = nodeAlloc();
 
 			_initNil();
 			this->_root = this->nil;
@@ -55,7 +62,6 @@ namespace ft
 			if (this != &other)
 			{
 				_compare = other._compare;
-				_alloc = other._alloc;
 				_size = other._size;
 			}
 			return *this;
@@ -117,6 +123,8 @@ namespace ft
 			node *nodeToReplace = nodeToDelete;
 			Color nodeToReplaceOriginalColor = nodeToReplace->color;
 
+			if (nodeToDelete->isNil())
+				return;
 			if (nodeToDelete->leftChild->isNil())
 			{
 				nodeToFixup = nodeToDelete->rightChild;
@@ -280,32 +288,22 @@ namespace ft
 			node *tmp_nil = other.nil;
 			size_type tmp_size = other._size;
 			key_compare tmp_compare = other._compare;
-			valueAlloc tmp_alloc = other._alloc;
 			nodeAlloc tmp_nodeAlloc = other._nodeAlloc;
 
 			other._root = this->_root;
 			other.nil = this->nil;
 			other._size = this->_size;
 			other._compare = this->_compare;
-			other._alloc = this->_alloc;
 			other._nodeAlloc = this->_nodeAlloc;
 
 			this->_root = tmp_root;
 			this->nil = tmp_nil;
 			this->_size = tmp_size;
 			this->_compare = tmp_compare;
-			this->_alloc = tmp_alloc;
 			this->_nodeAlloc = tmp_nodeAlloc;
 		}
 
 	private:
-		node *_root;
-		node *nil;
-		size_type _size;
-		key_compare _compare;
-		valueAlloc _alloc;
-		nodeAlloc _nodeAlloc;
-
 		void _initNil(void)
 		{
 			// Init nil node
@@ -323,7 +321,6 @@ namespace ft
 			node *new_node = _nodeAlloc.allocate(1);
 
 			_nodeAlloc.construct(new_node, node(value));
-			// _alloc.construct(newNode->value, value);
 			new_node->leftChild = nil;
 			new_node->rightChild = nil;
 			new_node->parent = nil;
