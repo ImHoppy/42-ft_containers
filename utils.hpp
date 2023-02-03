@@ -3,19 +3,20 @@
 namespace ft
 {
 	template <bool IsConst, typename NonConst, typename Const>
-    struct ternaire {};
+	struct ternaire { };
 
-    template <typename NonConst, typename Const>
-    struct ternaire<false, NonConst, Const>
-    {
-        typedef NonConst type;
-    };
+	template <typename NonConst, typename Const>
+	struct ternaire<false, NonConst, Const>
+	{
+		typedef NonConst type;
+	};
 
-    template <typename NonConst, typename Const>
-    struct ternaire<true, NonConst, Const>
-    {
-        typedef Const type;
-    };
+	template <typename NonConst, typename Const>
+	struct ternaire<true, NonConst, Const>
+	{
+		typedef Const type;
+	};
+
 	enum Color
 	{
 		RED = false,
@@ -49,7 +50,7 @@ namespace ft
 
 	private:
 		/*
-		** @brief It's imposible to get an address of
+		** @brief It's impossible to get an address of
 		** a nullptr.
 		*/
 		void operator&() const;
@@ -138,4 +139,5 @@ namespace ft
 		}
 		return true;
 	}
+
 } // namespace ft

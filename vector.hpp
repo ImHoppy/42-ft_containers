@@ -219,8 +219,8 @@ namespace ft
 /******************************************************************************/
 	private:
 		template <class InputIterator>
-		void _assign(InputIterator first, InputIterator last,  std::input_iterator_tag,
-					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+		void _assign(InputIterator first, InputIterator last, std::input_iterator_tag,
+					 typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			clear();
 			for (; first != last; ++first)
@@ -228,14 +228,15 @@ namespace ft
 		}
 
 		template <class InputIterator>
-		void _assign(InputIterator first, InputIterator last,  std::forward_iterator_tag,
-					typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
+		void _assign(InputIterator first, InputIterator last, std::forward_iterator_tag,
+					 typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type * = 0)
 		{
 			clear();
 			reserve(ft::distance(first, last));
 			for (; first != last; ++first)
 				push_back(*first);
 		}
+
 	public:
 		template <class InputIterator>
 		void assign(InputIterator first, InputIterator last,
@@ -333,7 +334,7 @@ namespace ft
 			}
 			else
 			{
-				vector<value_type>	tmp;
+				vector<value_type> tmp;
 				tmp.reserve(size() + n);
 				for (iterator it = begin(); it != position; ++it)
 					tmp.push_back(*it);
@@ -354,7 +355,7 @@ namespace ft
 			if (n > this->max_size())
 				throw(std::length_error("vector::insert (fill)"));
 
-			vector<value_type>	tmp;
+			vector<value_type> tmp;
 			if (size_type(_end_storage - _finish) >= n)
 				tmp.reserve(capacity());
 			else
@@ -420,7 +421,6 @@ namespace ft
 			return _allocator;
 		}
 		// relational operators
-
 
 	}; // class vector
 

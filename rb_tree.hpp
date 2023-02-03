@@ -513,7 +513,7 @@ namespace ft
 			}
 			_root->color = BLACK;
 		}
-		bool	isEqual(const value_type &key1, const value_type &key2) const
+		bool isEqual(const value_type &key1, const value_type &key2) const
 		{
 			return _compare(key1, key2) == 0 && _compare(key2, key1) == 0;
 		}

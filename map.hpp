@@ -54,7 +54,6 @@ namespace ft
 		};
 
 	public:
-
 		typedef rb_iterator<value_type, value_compare> iterator;
 		typedef rb_iterator<value_type, value_compare, true> const_iterator;
 		typedef ft::rb_reverse_iterator<value_type, value_compare> reverse_iterator;

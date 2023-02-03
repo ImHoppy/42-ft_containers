@@ -2,12 +2,13 @@
 
 #include "utils.hpp"
 
-namespace ft {
+namespace ft
+{
 
-	template< class Iterator >
+	template <class Iterator>
 	class iterator_traits
 	{
-		public:
+	public:
 		typedef typename Iterator::difference_type		difference_type;
 		typedef typename Iterator::value_type			value_type;
 		typedef typename Iterator::pointer				pointer;
@@ -15,10 +16,10 @@ namespace ft {
 		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
-	template< class T >
-	class iterator_traits<T*>
+	template <class T>
+	class iterator_traits<T *>
 	{
-		public:
+	public:
 		typedef ptrdiff_t						difference_type;
 		typedef T								value_type;
 		typedef T*								pointer;
@@ -26,10 +27,10 @@ namespace ft {
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
 
-	template< class T >
-	class iterator_traits<const T*>
+	template <class T>
+	class iterator_traits<const T *>
 	{
-		public:
+	public:
 		typedef ptrdiff_t						difference_type;
 		typedef T								value_type;
 		typedef const T*						pointer;
@@ -38,8 +39,10 @@ namespace ft {
 
 	};
 
-	template<typename Iter>
-	inline typename iterator_traits<Iter>::iterator_category iterator_category(const Iter&)
-	{ return typename iterator_traits<Iter>::iterator_category(); }
+	template <typename Iter>
+	inline typename iterator_traits<Iter>::iterator_category iterator_category(const Iter &)
+	{
+		return typename iterator_traits<Iter>::iterator_category();
+	}
 
 } // namespace ft

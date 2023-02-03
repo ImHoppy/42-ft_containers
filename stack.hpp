@@ -2,20 +2,23 @@
 
 #include "vector.hpp"
 
-namespace ft {
+namespace ft
+{
 	template <class T, class Container = vector<T> >
-	class stack {
+	class stack
+	{
 	public:
-		typedef T							value_type;
-		typedef Container					container_type;
+		typedef T									value_type;
+		typedef Container							container_type;
 		typedef typename container_type::size_type	size_type;
 		typedef typename Container::reference		reference;
 		typedef typename Container::const_reference	const_reference;
 	private:
-		container_type	_ctnr;
+		container_type _ctnr;
+
 	public:
 		explicit stack(const container_type &ctnr = container_type()) : _ctnr(ctnr) {}
-		~stack() {};
+		~stack(){};
 		bool empty() const { return _ctnr.empty(); }
 		size_type size() const { return _ctnr.size(); }
 		reference top() { return _ctnr.back(); }
@@ -49,5 +52,5 @@ namespace ft {
 	bool operator>(const stack<T, Container> &lhs, const stack<T, Container> &rhs) { return lhs._ctnr > rhs._ctnr; }
 	template <class T, class Container>
 	bool operator>=(const stack<T, Container> &lhs, const stack<T, Container> &rhs) { return lhs._ctnr >= rhs._ctnr; }
-	
+
 }
