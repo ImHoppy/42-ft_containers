@@ -117,14 +117,22 @@ namespace ft
 			eraseNode(nodeToDelete);
 			return 1;
 		}
-		void eraseNode(node *nodeToDelete)
+		node *_getMin(node *node) const
+		{
+			if (!node || node->isNil())
+				return nil;
+			for (; !node->leftChild->isNil(); node = node->leftChild)
+				;
+			return (node);
+		}
+		size_type eraseNode(node *nodeToDelete)
 		{
 			node *nodeToFixup = nil;
 			node *nodeToReplace = nodeToDelete;
 			Color nodeToReplaceOriginalColor = nodeToReplace->color;
 
 			if (nodeToDelete->isNil())
-				return;
+				return 0;
 			if (nodeToDelete->leftChild->isNil())
 			{
 				nodeToFixup = nodeToDelete->rightChild;
@@ -132,33 +140,36 @@ namespace ft
 			}
 			else if (nodeToDelete->rightChild->isNil())
 			{
+				// std::cout << "right is nil\n";
 				nodeToFixup = nodeToDelete->leftChild;
 				_transplant(nodeToDelete, nodeToDelete->leftChild);
 			}
 			else
 			{
-				nodeToReplace = nodeToDelete->rightChild->getMin();
+				nodeToReplace = _getMin(nodeToDelete->rightChild);
+				// nodeToReplace = nodeToDelete->rightChild->getMin();
 				nodeToReplaceOriginalColor = nodeToReplace->color;
 				nodeToFixup = nodeToReplace->rightChild;
-				if (nodeToReplace->parent == nodeToDelete && !nodeToFixup->isNil())
+				if (nodeToReplace->parent == nodeToDelete)
 					nodeToFixup->parent = nodeToReplace;
 				else
 				{
 					_transplant(nodeToReplace, nodeToReplace->rightChild);
 					nodeToReplace->rightChild = nodeToDelete->rightChild;
-					if (!nodeToReplace->rightChild->isNil())
-						nodeToReplace->rightChild->parent = nodeToReplace;
+					nodeToReplace->rightChild->parent = nodeToReplace;
 				}
 				_transplant(nodeToDelete, nodeToReplace);
 				nodeToReplace->leftChild = nodeToDelete->leftChild;
-				if (!nodeToReplace->leftChild->isNil())
-					nodeToReplace->leftChild->parent = nodeToReplace;
+				nodeToReplace->leftChild->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
+			_deleteNode(nodeToDelete);
+			--_size;
+			// std::cout << "Before deleteFixup\n";
 			if (nodeToReplaceOriginalColor == BLACK)
 				_deleteFixup(nodeToFixup);
-			--_size;
-			_deleteNode(nodeToDelete);
+			// std::cout << "Before deleteNode\n";
+			return 1;
 		}
 		node *findNode(const value_type &key)
 		{
@@ -343,76 +354,76 @@ namespace ft
 			if (!newNode->isNil())
 				newNode->parent = oldNode->parent;
 		}
-		void _deleteFixup(node *x)
+		void _deleteFixup(node *fixNode)
 		{
-			node *w = nil;
+			node *save = nil;
 
-			while (x != _root && x->color == BLACK)
+			while (fixNode != _root && fixNode->color == BLACK)
 			{
-				if (x == x->parent->leftChild)
+				if (fixNode == fixNode->parent->leftChild)
 				{
-					w = x->parent->rightChild;
-					if (w->color == RED)
+					save = fixNode->parent->rightChild;
+					if (save->color == RED)
 					{
-						w->color = BLACK;
-						x->parent->color = RED;
-						rotateLeft(x->parent);
-						w = x->parent->rightChild;
+						save->color = BLACK;
+						fixNode->parent->color = RED;
+						rotateLeft(fixNode->parent);
+						save = fixNode->parent->rightChild;
 					}
-					if (w->leftChild->color == BLACK && w->rightChild->color == BLACK)
+					if (save->leftChild->color == BLACK && save->rightChild->color == BLACK)
 					{
-						w->color = RED;
-						x = x->parent;
+						save->color = RED;
+						fixNode = fixNode->parent;
 					}
 					else
 					{
-						if (w->rightChild->color == BLACK)
+						if (save->rightChild->color == BLACK)
 						{
-							w->leftChild->color = BLACK;
-							w->color = RED;
-							rotateRight(w);
-							w = x->parent->rightChild;
+							save->leftChild->color = BLACK;
+							save->color = RED;
+							rotateRight(save);
+							save = fixNode->parent->rightChild;
 						}
-						w->color = x->parent->color;
-						x->parent->color = BLACK;
-						w->rightChild->color = BLACK;
-						rotateLeft(x->parent);
-						x = _root;
+						save->color = fixNode->parent->color;
+						fixNode->parent->color = BLACK;
+						save->rightChild->color = BLACK;
+						rotateLeft(fixNode->parent);
+						fixNode = _root;
 					}
 				}
 				else
 				{
-					w = x->parent->leftChild;
-					if (w->color == RED)
+					save = fixNode->parent->leftChild;
+					if (save->color == RED)
 					{
-						w->color = BLACK;
-						x->parent->color = RED;
-						rotateRight(x->parent);
-						w = x->parent->leftChild;
+						save->color = BLACK;
+						fixNode->parent->color = RED;
+						rotateRight(fixNode->parent);
+						save = fixNode->parent->leftChild;
 					}
-					if (w->rightChild->color == BLACK && w->leftChild->color == BLACK)
+					if (save->rightChild->color == BLACK && save->leftChild->color == BLACK)
 					{
-						w->color = RED;
-						x = x->parent;
+						save->color = RED;
+						fixNode = fixNode->parent;
 					}
 					else
 					{
-						if (w->leftChild->color == BLACK)
+						if (save->leftChild->color == BLACK)
 						{
-							w->rightChild->color = BLACK;
-							w->color = RED;
-							rotateLeft(w);
-							w = x->parent->leftChild;
+							save->rightChild->color = BLACK;
+							save->color = RED;
+							rotateLeft(save);
+							save = fixNode->parent->leftChild;
 						}
-						w->color = x->parent->color;
-						x->parent->color = BLACK;
-						w->leftChild->color = BLACK;
-						rotateRight(x->parent);
-						x = _root;
+						save->color = fixNode->parent->color;
+						fixNode->parent->color = BLACK;
+						save->leftChild->color = BLACK;
+						rotateRight(fixNode->parent);
+						fixNode = _root;
 					}
 				}
 			}
-			x->color = BLACK;
+			fixNode->color = BLACK;
 		}
 		void _clearNodes(node *nodeToDelete)
 		{
