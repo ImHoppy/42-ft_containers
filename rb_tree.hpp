@@ -475,8 +475,8 @@ namespace ft
 					tmp = lastInsertedNode->parent->parent->rightChild;
 					if (tmp->color == RED)
 					{
-						lastInsertedNode->parent->color = BLACK;
 						tmp->color = BLACK;
+						lastInsertedNode->parent->color = BLACK;
 						lastInsertedNode->parent->parent->color = RED;
 						lastInsertedNode = lastInsertedNode->parent->parent;
 					}
