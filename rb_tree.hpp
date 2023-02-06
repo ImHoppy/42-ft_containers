@@ -346,68 +346,69 @@ namespace ft
 		}
 		void _deleteFixup(node *x)
 		{
-			node *w = nil;
-
+			node *save = nil;
+			if (x->isNil())
+				return;
 			while (x != _root && x->color == BLACK)
 			{
 				if (x == x->parent->leftChild)
 				{
-					w = x->parent->rightChild;
-					if (w->color == RED)
+					save = x->parent->rightChild;
+					if (save->color == RED)
 					{
-						w->color = BLACK;
+						save->color = BLACK;
 						x->parent->color = RED;
 						rotateLeft(x->parent);
-						w = x->parent->rightChild;
+						save = x->parent->rightChild;
 					}
-					if (w->leftChild->color == BLACK && w->rightChild->color == BLACK)
+					if (save->leftChild->color == BLACK && save->rightChild->color == BLACK)
 					{
-						w->color = RED;
+						save->color = RED;
 						x = x->parent;
 					}
 					else
 					{
-						if (w->rightChild->color == BLACK)
+						if (save->rightChild->color == BLACK)
 						{
-							w->leftChild->color = BLACK;
-							w->color = RED;
-							rotateRight(w);
-							w = x->parent->rightChild;
+							save->leftChild->color = BLACK;
+							save->color = RED;
+							rotateRight(save);
+							save = x->parent->rightChild;
 						}
-						w->color = x->parent->color;
+						save->color = x->parent->color;
 						x->parent->color = BLACK;
-						w->rightChild->color = BLACK;
+						save->rightChild->color = BLACK;
 						rotateLeft(x->parent);
 						x = _root;
 					}
 				}
 				else
 				{
-					w = x->parent->leftChild;
-					if (w->color == RED)
+					save = x->parent->leftChild;
+					if (save->color == RED)
 					{
-						w->color = BLACK;
+						save->color = BLACK;
 						x->parent->color = RED;
 						rotateRight(x->parent);
-						w = x->parent->leftChild;
+						save = x->parent->leftChild;
 					}
-					if (w->rightChild->color == BLACK && w->leftChild->color == BLACK)
+					if (save->rightChild->color == BLACK && save->leftChild->color == BLACK)
 					{
-						w->color = RED;
+						save->color = RED;
 						x = x->parent;
 					}
 					else
 					{
-						if (w->leftChild->color == BLACK)
+						if (save->leftChild->color == BLACK)
 						{
-							w->rightChild->color = BLACK;
-							w->color = RED;
-							rotateLeft(w);
-							w = x->parent->leftChild;
+							save->rightChild->color = BLACK;
+							save->color = RED;
+							rotateLeft(save);
+							save = x->parent->leftChild;
 						}
-						w->color = x->parent->color;
+						save->color = x->parent->color;
 						x->parent->color = BLACK;
-						w->leftChild->color = BLACK;
+						save->leftChild->color = BLACK;
 						rotateRight(x->parent);
 						x = _root;
 					}
