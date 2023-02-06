@@ -309,7 +309,8 @@ namespace ft
 			// Init nil node
 			value_type nilValue = value_type();
 
-			nil = _newNode(nilValue);
+			nil = _nodeAlloc.allocate(1);
+			_nodeAlloc.construct(nil, node(nilValue));
 			nil->color = BLACK;
 			nil->parent = nil;
 			nil->leftChild = nil;
