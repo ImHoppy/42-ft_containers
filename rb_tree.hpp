@@ -117,7 +117,7 @@ namespace ft
 			eraseNode(nodeToDelete);
 			return 1;
 		}
-		node *_getMin(node *node) const
+		node *_getMin(node *node) const // TODO: Unused ?
 		{
 			if (!node || node->isNil())
 				return nil;
@@ -140,35 +140,35 @@ namespace ft
 			}
 			else if (nodeToDelete->rightChild->isNil())
 			{
-				// std::cout << "right is nil\n";
 				nodeToFixup = nodeToDelete->leftChild;
 				_transplant(nodeToDelete, nodeToDelete->leftChild);
 			}
 			else
 			{
-				nodeToReplace = _getMin(nodeToDelete->rightChild);
-				// nodeToReplace = nodeToDelete->rightChild->getMin();
+				// TODO: rb_node::getMin() or _getMin ?
+				// nodeToReplace = _getMin(nodeToDelete->rightChild);
+				nodeToReplace = nodeToDelete->rightChild->getMin();
 				nodeToReplaceOriginalColor = nodeToReplace->color;
 				nodeToFixup = nodeToReplace->rightChild;
-				if (nodeToReplace->parent == nodeToDelete)
+				if (nodeToReplace->parent == nodeToDelete && !nodeToFixup->isNil()) // TODO: Nil check useless?
 					nodeToFixup->parent = nodeToReplace;
 				else
 				{
 					_transplant(nodeToReplace, nodeToReplace->rightChild);
 					nodeToReplace->rightChild = nodeToDelete->rightChild;
-					nodeToReplace->rightChild->parent = nodeToReplace;
+					if (!nodeToReplace->rightChild->isNil())
+						nodeToReplace->rightChild->parent = nodeToReplace;
 				}
 				_transplant(nodeToDelete, nodeToReplace);
 				nodeToReplace->leftChild = nodeToDelete->leftChild;
+				// if (!nodeToReplace->leftChild->isNil()) // TODO: Nil check useful?
 				nodeToReplace->leftChild->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
 			_deleteNode(nodeToDelete);
 			--_size;
-			// std::cout << "Before deleteFixup\n";
 			if (nodeToReplaceOriginalColor == BLACK)
 				_deleteFixup(nodeToFixup);
-			// std::cout << "Before deleteNode\n";
 			return 1;
 		}
 		node *findNode(const value_type &key)
@@ -443,7 +443,8 @@ namespace ft
 				hinge->leftChild = movedNode->rightChild;
 			if (!movedNode->getChild(side)->isNil())
 				movedNode->getChild(side)->parent = hinge;
-			movedNode->parent = hinge->parent;
+			if (!movedNode->isNil())
+				movedNode->parent = hinge->parent;
 			if (hinge->parent->isNil())
 				_root = movedNode;
 			else if (hinge->isALeftChild())
@@ -454,7 +455,8 @@ namespace ft
 				movedNode->leftChild = hinge;
 			else
 				movedNode->rightChild = hinge;
-			hinge->parent = movedNode;
+			if (!hinge->isNil())
+				hinge->parent = movedNode;
 		}
 		node *_getInsertionParent(const value_type &insertValue)
 		{
