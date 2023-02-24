@@ -379,11 +379,8 @@ namespace ft
 		iterator erase(iterator position)
 		{
 			size_type pos = ft::distance(begin(), position);
-			for (size_type i = pos; i < size() - 1; i++)
-			{
-				_start[i] = _start[i + 1];
-			}
-			_allocator.destroy(&_start[size() - 1]);
+			_allocator.destroy(&(*position));
+			std::copy(position + 1, end(), position);
 			--_finish;
 			return begin() + pos;
 		}
@@ -392,8 +389,7 @@ namespace ft
 			pointer tmp = &(*first);
 			for (pointer it = tmp; it != &(*last); ++it)
 				_allocator.destroy(it);
-			for (pointer it = tmp; it != _finish - (last - first); ++it)
-				*it = *(it + (last - first));
+			std::copy(last, end(), first);
 			_finish -= (last - first);
 			return iterator(tmp);
 		}
