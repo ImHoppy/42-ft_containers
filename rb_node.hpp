@@ -18,13 +18,13 @@ namespace ft
 
 	public:
 		rb_node *parent;
-		rb_node *rightChild;
-		rb_node *leftChild;
+		rb_node *right;
+		rb_node *left;
 		Color color;
 		value_type value;
 
 		rb_node(void)
-			: parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
+			: parent(u_nullptr), right(u_nullptr), left(u_nullptr), color(RED)
 		{
 			value = value_type();
 		}
@@ -33,7 +33,7 @@ namespace ft
 				rb_node *right = u_nullptr,
 				rb_node *left = u_nullptr,
 				Color c = RED)
-			: parent(parent), rightChild(right), leftChild(left), color(c), value(value)
+			: parent(parent), right(right), left(left), color(c), value(value)
 		{
 			return;
 		}
@@ -47,8 +47,8 @@ namespace ft
 			if (this == &other)
 				return *this;
 			this->parent = other.parent;
-			this->rightChild = other.rightChild;
-			this->leftChild = other.leftChild;
+			this->right = other.right;
+			this->left = other.left;
 			this->color = other.color;
 			this->value = other.value;
 			return *this;
@@ -60,18 +60,18 @@ namespace ft
 		}
 		bool isALeftChild(void) const
 		{
-			return this->parent->leftChild == this;
+			return this->parent->left == this;
 		}
 		bool isARightChild(void) const
 		{
-			return this->parent->rightChild == this;
+			return this->parent->right == this;
 		}
 		rb_node *getChild(Side side)
 		{
 			if (side == LEFT)
-				return this->leftChild;
+				return this->left;
 			if (side == RIGHT)
-				return this->rightChild;
+				return this->right;
 			throw std::invalid_argument("Undefined side for getChild");
 		}
 
@@ -83,32 +83,32 @@ namespace ft
 		{
 			rb_node *treeMinimum = this;
 
-			while (!treeMinimum->leftChild->isNil())
-				treeMinimum = treeMinimum->leftChild;
+			while (!treeMinimum->left->isNil())
+				treeMinimum = treeMinimum->left;
 			return treeMinimum;
 		}
 		rb_node *getMin(void) const
 		{
 			rb_node *treeMinimum = this;
 
-			while (!treeMinimum->leftChild->isNil())
-				treeMinimum = treeMinimum->leftChild;
+			while (!treeMinimum->left->isNil())
+				treeMinimum = treeMinimum->left;
 			return treeMinimum;
 		}
 		rb_node *getMax(void)
 		{
 			rb_node *treeMaximum = this;
 
-			while (!treeMaximum->rightChild->isNil())
-				treeMaximum = treeMaximum->rightChild;
+			while (!treeMaximum->right->isNil())
+				treeMaximum = treeMaximum->right;
 			return treeMaximum;
 		}
 		rb_node *getMax(void) const
 		{
 			rb_node *treeMaximum = this;
 
-			while (!treeMaximum->rightChild->isNil())
-				treeMaximum = treeMaximum->rightChild;
+			while (!treeMaximum->right->isNil())
+				treeMaximum = treeMaximum->right;
 			return treeMaximum;
 		}
 		rb_node *getTreeSuccessor(const rb_node *currentNode = u_nullptr)
@@ -117,10 +117,10 @@ namespace ft
 
 			if (currentNode == u_nullptr)
 				currentNode = this;
-			if (!currentNode->rightChild->isNil())
-				return currentNode->rightChild->getMin();
+			if (!currentNode->right->isNil())
+				return currentNode->right->getMin();
 			tmp = currentNode->parent;
-			while ((!tmp->isNil()) && currentNode == tmp->rightChild)
+			while ((!tmp->isNil()) && currentNode == tmp->right)
 			{
 				currentNode = tmp;
 				tmp = tmp->parent;
@@ -133,10 +133,10 @@ namespace ft
 
 			if (currentNode == u_nullptr)
 				currentNode = this;
-			if (!currentNode->rightChild->isNil())
-				return currentNode->rightChild->getMin();
+			if (!currentNode->right->isNil())
+				return currentNode->right->getMin();
 			tmp = currentNode->parent;
-			while ((!tmp->isNil()) && currentNode == tmp->rightChild)
+			while ((!tmp->isNil()) && currentNode == tmp->right)
 			{
 				currentNode = tmp;
 				tmp = tmp->parent;
@@ -149,10 +149,10 @@ namespace ft
 
 			if (currentNode == u_nullptr)
 				currentNode = this;
-			if (!currentNode->leftChild->isNil())
-				return currentNode->leftChild->getMax();
+			if (!currentNode->left->isNil())
+				return currentNode->left->getMax();
 			tmp = currentNode->parent;
-			while ((!tmp->isNil()) && currentNode == tmp->leftChild)
+			while ((!tmp->isNil()) && currentNode == tmp->left)
 			{
 				currentNode = tmp;
 				tmp = tmp->parent;
@@ -165,10 +165,10 @@ namespace ft
 
 			if (currentNode == u_nullptr)
 				currentNode = this;
-			if (!currentNode->leftChild->isNil())
-				return currentNode->leftChild->getMax();
+			if (!currentNode->left->isNil())
+				return currentNode->left->getMax();
 			tmp = currentNode->parent;
-			while ((!tmp->isNil()) && currentNode == tmp->leftChild)
+			while ((!tmp->isNil()) && currentNode == tmp->left)
 			{
 				currentNode = tmp;
 				tmp = tmp->parent;

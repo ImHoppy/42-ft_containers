@@ -101,9 +101,9 @@ namespace ft
 			if (insertionParent->isNil())
 				_root = nodeToInsert;
 			else if (_compare(nodeToInsert->getValue(), insertionParent->getValue()))
-				insertionParent->leftChild = nodeToInsert;
+				insertionParent->left = nodeToInsert;
 			else
-				insertionParent->rightChild = nodeToInsert;
+				insertionParent->right = nodeToInsert;
 			_insertFixup(nodeToInsert);
 			++_size;
 			wasInserted = true;
@@ -125,34 +125,34 @@ namespace ft
 
 			if (nodeToDelete->isNil())
 				return 0;
-			if (nodeToDelete->leftChild->isNil())
+			if (nodeToDelete->left->isNil())
 			{
-				nodeToFixup = nodeToDelete->rightChild;
-				_transplant(nodeToDelete, nodeToDelete->rightChild);
+				nodeToFixup = nodeToDelete->right;
+				_transplant(nodeToDelete, nodeToDelete->right);
 			}
-			else if (nodeToDelete->rightChild->isNil())
+			else if (nodeToDelete->right->isNil())
 			{
-				nodeToFixup = nodeToDelete->leftChild;
-				_transplant(nodeToDelete, nodeToDelete->leftChild);
+				nodeToFixup = nodeToDelete->left;
+				_transplant(nodeToDelete, nodeToDelete->left);
 			}
 			else
 			{
-				nodeToReplace = nodeToDelete->rightChild->getMin();
+				nodeToReplace = nodeToDelete->right->getMin();
 				nodeToReplaceOriginalColor = nodeToReplace->color;
-				nodeToFixup = nodeToReplace->rightChild;
+				nodeToFixup = nodeToReplace->right;
 				if (nodeToReplace->parent == nodeToDelete && !nodeToFixup->isNil())
 					nodeToFixup->parent = nodeToReplace;
 				else
 				{
-					_transplant(nodeToReplace, nodeToReplace->rightChild);
-					nodeToReplace->rightChild = nodeToDelete->rightChild;
-					if (!nodeToReplace->rightChild->isNil())
-						nodeToReplace->rightChild->parent = nodeToReplace;
+					_transplant(nodeToReplace, nodeToReplace->right);
+					nodeToReplace->right = nodeToDelete->right;
+					if (!nodeToReplace->right->isNil())
+						nodeToReplace->right->parent = nodeToReplace;
 				}
 				_transplant(nodeToDelete, nodeToReplace);
-				nodeToReplace->leftChild = nodeToDelete->leftChild;
-				if (!nodeToReplace->leftChild->isNil())
-					nodeToReplace->leftChild->parent = nodeToReplace;
+				nodeToReplace->left = nodeToDelete->left;
+				if (!nodeToReplace->left->isNil())
+					nodeToReplace->left->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
 			_deleteNode(nodeToDelete);
@@ -174,16 +174,16 @@ namespace ft
 			if (nodeToSearch->isNil() || _isEqual(nodeToSearch->getValue(), value))
 				return nodeToSearch;
 			if (_compare(value, nodeToSearch->getValue()))
-				return findNode(nodeToSearch->leftChild, value);
-			return findNode(nodeToSearch->rightChild, value);
+				return findNode(nodeToSearch->left, value);
+			return findNode(nodeToSearch->right, value);
 		}
 		node *findNode(node *nodeToSearch, const value_type &value) const
 		{
 			if (nodeToSearch->isNil() || _isEqual(nodeToSearch->getValue(), value))
 				return nodeToSearch;
 			if (_compare(value, nodeToSearch->getValue()))
-				return findNode(nodeToSearch->leftChild, value);
-			return findNode(nodeToSearch->rightChild, value);
+				return findNode(nodeToSearch->left, value);
+			return findNode(nodeToSearch->right, value);
 		}
 		node *lower_bound(const value_type &key)
 		{
@@ -200,8 +200,8 @@ namespace ft
 			if (current_node->isNil() || _isEqual(value, current_node->getValue()))
 				return current_node;
 			if (_compare(current_node->getValue(), value))
-				return lower_bound(current_node->rightChild, value);
-			tmp = lower_bound(current_node->leftChild, value);
+				return lower_bound(current_node->right, value);
+			tmp = lower_bound(current_node->left, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
@@ -213,8 +213,8 @@ namespace ft
 			if (current_node->isNil() || _isEqual(value, current_node->getValue()))
 				return current_node;
 			if (_compare(current_node->getValue(), value))
-				return lower_bound(current_node->rightChild, value);
-			tmp = lower_bound(current_node->leftChild, value);
+				return lower_bound(current_node->right, value);
+			tmp = lower_bound(current_node->left, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
@@ -234,8 +234,8 @@ namespace ft
 			if (current_node->isNil())
 				return current_node;
 			if (_compare(current_node->getValue(), value) || _isEqual(current_node->getValue(), value))
-				return upper_bound(current_node->rightChild, value);
-			tmp = upper_bound(current_node->leftChild, value);
+				return upper_bound(current_node->right, value);
+			tmp = upper_bound(current_node->left, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
@@ -247,8 +247,8 @@ namespace ft
 			if (current_node->isNil())
 				return current_node;
 			if (_compare(current_node->getValue(), value) || _isEqual(current_node->getValue(), value))
-				return upper_bound(current_node->rightChild, value);
-			tmp = upper_bound(current_node->leftChild, value);
+				return upper_bound(current_node->right, value);
+			tmp = upper_bound(current_node->left, value);
 			if (tmp->isNil())
 				return current_node;
 			return tmp;
@@ -300,8 +300,8 @@ namespace ft
 			_nodeAlloc.construct(nil, node(nilValue));
 			nil->color = BLACK;
 			nil->parent = nil;
-			nil->leftChild = nil;
-			nil->rightChild = nil;
+			nil->left = nil;
+			nil->right = nil;
 		}
 
 		node *_newNode(const value_type &value)
@@ -309,8 +309,8 @@ namespace ft
 			node *new_node = _nodeAlloc.allocate(1);
 
 			_nodeAlloc.construct(new_node, node(value));
-			new_node->leftChild = nil;
-			new_node->rightChild = nil;
+			new_node->left = nil;
+			new_node->right = nil;
 			new_node->parent = nil;
 			new_node->color = RED;
 			return new_node;
@@ -325,9 +325,9 @@ namespace ft
 			if (oldNode->parent->isNil())
 				_root = newNode;
 			else if (oldNode->isALeftChild())
-				oldNode->parent->leftChild = newNode;
+				oldNode->parent->left = newNode;
 			else
-				oldNode->parent->rightChild = newNode;
+				oldNode->parent->right = newNode;
 			if (!newNode->isNil())
 				newNode->parent = oldNode->parent;
 		}
@@ -337,64 +337,64 @@ namespace ft
 
 			while (fixNode != _root && fixNode->color == BLACK)
 			{
-				if (fixNode == fixNode->parent->leftChild)
+				if (fixNode == fixNode->parent->left)
 				{
-					save = fixNode->parent->rightChild;
+					save = fixNode->parent->right;
 					if (save->color == RED)
 					{
 						save->color = BLACK;
 						fixNode->parent->color = RED;
 						rotateLeft(fixNode->parent);
-						save = fixNode->parent->rightChild;
+						save = fixNode->parent->right;
 					}
-					if (save->leftChild->color == BLACK && save->rightChild->color == BLACK)
+					if (save->left->color == BLACK && save->right->color == BLACK)
 					{
 						save->color = RED;
 						fixNode = fixNode->parent;
 					}
 					else
 					{
-						if (save->rightChild->color == BLACK)
+						if (save->right->color == BLACK)
 						{
-							save->leftChild->color = BLACK;
+							save->left->color = BLACK;
 							save->color = RED;
 							rotateRight(save);
-							save = fixNode->parent->rightChild;
+							save = fixNode->parent->right;
 						}
 						save->color = fixNode->parent->color;
 						fixNode->parent->color = BLACK;
-						save->rightChild->color = BLACK;
+						save->right->color = BLACK;
 						rotateLeft(fixNode->parent);
 						fixNode = _root;
 					}
 				}
 				else
 				{
-					save = fixNode->parent->leftChild;
+					save = fixNode->parent->left;
 					if (save->color == RED)
 					{
 						save->color = BLACK;
 						fixNode->parent->color = RED;
 						rotateRight(fixNode->parent);
-						save = fixNode->parent->leftChild;
+						save = fixNode->parent->left;
 					}
-					if (save->rightChild->color == BLACK && save->leftChild->color == BLACK)
+					if (save->right->color == BLACK && save->left->color == BLACK)
 					{
 						save->color = RED;
 						fixNode = fixNode->parent;
 					}
 					else
 					{
-						if (save->leftChild->color == BLACK)
+						if (save->left->color == BLACK)
 						{
-							save->rightChild->color = BLACK;
+							save->right->color = BLACK;
 							save->color = RED;
 							rotateLeft(save);
-							save = fixNode->parent->leftChild;
+							save = fixNode->parent->left;
 						}
 						save->color = fixNode->parent->color;
 						fixNode->parent->color = BLACK;
-						save->leftChild->color = BLACK;
+						save->left->color = BLACK;
 						rotateRight(fixNode->parent);
 						fixNode = _root;
 					}
@@ -404,10 +404,10 @@ namespace ft
 		}
 		void _clearNodes(node *nodeToDelete)
 		{
-			if (!nodeToDelete->leftChild->isNil())
-				_clearNodes(nodeToDelete->leftChild);
-			if (!nodeToDelete->rightChild->isNil())
-				_clearNodes(nodeToDelete->rightChild);
+			if (!nodeToDelete->left->isNil())
+				_clearNodes(nodeToDelete->left);
+			if (!nodeToDelete->right->isNil())
+				_clearNodes(nodeToDelete->right);
 			_deleteNode(nodeToDelete);
 			--_size;
 		}
@@ -415,9 +415,9 @@ namespace ft
 		{
 			node *movedNode = hinge->getChild(side == LEFT ? RIGHT : LEFT);
 			if (side == LEFT)
-				hinge->rightChild = movedNode->leftChild;
+				hinge->right = movedNode->left;
 			else
-				hinge->leftChild = movedNode->rightChild;
+				hinge->left = movedNode->right;
 			if (!movedNode->getChild(side)->isNil())
 				movedNode->getChild(side)->parent = hinge;
 			if (!movedNode->isNil())
@@ -425,13 +425,13 @@ namespace ft
 			if (hinge->parent->isNil())
 				_root = movedNode;
 			else if (hinge->isALeftChild())
-				hinge->parent->leftChild = movedNode;
+				hinge->parent->left = movedNode;
 			else
-				hinge->parent->rightChild = movedNode;
+				hinge->parent->right = movedNode;
 			if (side == LEFT)
-				movedNode->leftChild = hinge;
+				movedNode->left = hinge;
 			else
-				movedNode->rightChild = hinge;
+				movedNode->right = hinge;
 			if (!hinge->isNil())
 				hinge->parent = movedNode;
 		}
@@ -444,11 +444,11 @@ namespace ft
 			{
 				result = traversingTree;
 				if (_compare(insertValue, traversingTree->getValue()))
-					traversingTree = traversingTree->leftChild;
+					traversingTree = traversingTree->left;
 				else if (_isEqual(insertValue, traversingTree->getValue()))
 					return result;
 				else
-					traversingTree = traversingTree->rightChild;
+					traversingTree = traversingTree->right;
 			}
 			return result;
 		}
@@ -458,9 +458,9 @@ namespace ft
 
 			while (lastInsertedNode->parent->color == RED)
 			{
-				if (lastInsertedNode->parent == lastInsertedNode->parent->parent->leftChild)
+				if (lastInsertedNode->parent == lastInsertedNode->parent->parent->left)
 				{
-					tmp = lastInsertedNode->parent->parent->rightChild;
+					tmp = lastInsertedNode->parent->parent->right;
 					if (tmp->color == RED)
 					{
 						tmp->color = BLACK;
@@ -470,7 +470,7 @@ namespace ft
 					}
 					else
 					{
-						if (lastInsertedNode == lastInsertedNode->parent->rightChild)
+						if (lastInsertedNode == lastInsertedNode->parent->right)
 						{
 							lastInsertedNode = lastInsertedNode->parent;
 							rotateLeft(lastInsertedNode);
@@ -482,7 +482,7 @@ namespace ft
 				}
 				else
 				{
-					tmp = lastInsertedNode->parent->parent->leftChild;
+					tmp = lastInsertedNode->parent->parent->left;
 					if (tmp->color == RED)
 					{
 						lastInsertedNode->parent->color = BLACK;
@@ -492,7 +492,7 @@ namespace ft
 					}
 					else
 					{
-						if (lastInsertedNode == lastInsertedNode->parent->leftChild)
+						if (lastInsertedNode == lastInsertedNode->parent->left)
 						{
 							lastInsertedNode = lastInsertedNode->parent;
 							rotateRight(lastInsertedNode);
