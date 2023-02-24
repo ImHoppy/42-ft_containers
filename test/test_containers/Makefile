@@ -4,7 +4,7 @@ OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 
 CXX			= c++
-CXXFLAGS	= -Wall -Wextra -MMD -MP -I../.. -g3
+CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I../.. -g3
 
 
 ifdef STD
