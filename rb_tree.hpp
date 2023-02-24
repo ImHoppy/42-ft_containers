@@ -117,14 +117,6 @@ namespace ft
 			eraseNode(nodeToDelete);
 			return 1;
 		}
-		node *_getMin(node *node) const // TODO: Unused ?
-		{
-			if (!node || node->isNil())
-				return nil;
-			for (; !node->leftChild->isNil(); node = node->leftChild)
-				;
-			return (node);
-		}
 		size_type eraseNode(node *nodeToDelete)
 		{
 			node *nodeToFixup = nil;
@@ -145,8 +137,6 @@ namespace ft
 			}
 			else
 			{
-				// TODO: rb_node::getMin() or _getMin ?
-				// nodeToReplace = _getMin(nodeToDelete->rightChild);
 				nodeToReplace = nodeToDelete->rightChild->getMin();
 				nodeToReplaceOriginalColor = nodeToReplace->color;
 				nodeToFixup = nodeToReplace->rightChild;
