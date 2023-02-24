@@ -4,7 +4,7 @@
 #include "pair.hpp"
 #include <memory>
 #include <stdexcept>
-#include <iostream>
+
 namespace ft
 {
 
@@ -82,18 +82,9 @@ namespace ft
 		rb_node *getMin(void)
 		{
 			rb_node *treeMinimum = this;
-			int depth = 0;
-			while (!treeMinimum->leftChild->isNil() && treeMinimum->leftChild != this && depth < 100)
-			{
-				// std::cout << "self:      " << this << "\n";
-				// std::cout << "leftchild: " << leftChild << std::endl;
-				// std::cout << "Depth in while: " << depth << std::endl;
-				depth++;
+
+			while (!treeMinimum->leftChild->isNil())
 				treeMinimum = treeMinimum->leftChild;
-			}
-			if (depth >= 100)
-				throw std::runtime_error("Infinite loop in getMin");
-			// std::cout << "Depth: " << depth << std::endl;
 			return treeMinimum;
 		}
 		rb_node *getMin(void) const

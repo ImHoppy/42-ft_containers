@@ -258,7 +258,6 @@ namespace ft
 		}
 		size_type erase(const key_type &key)
 		{
-			// std::cerr << "Before map_erase\n";
 			return this->_rbTree.eraseNode(value_type(key, mapped_type()));
 		}
 
