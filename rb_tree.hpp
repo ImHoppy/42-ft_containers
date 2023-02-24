@@ -140,7 +140,7 @@ namespace ft
 				nodeToReplace = nodeToDelete->rightChild->getMin();
 				nodeToReplaceOriginalColor = nodeToReplace->color;
 				nodeToFixup = nodeToReplace->rightChild;
-				if (nodeToReplace->parent == nodeToDelete && !nodeToFixup->isNil()) // TODO: Nil check useless?
+				if (nodeToReplace->parent == nodeToDelete && !nodeToFixup->isNil())
 					nodeToFixup->parent = nodeToReplace;
 				else
 				{
@@ -151,7 +151,6 @@ namespace ft
 				}
 				_transplant(nodeToDelete, nodeToReplace);
 				nodeToReplace->leftChild = nodeToDelete->leftChild;
-				// if (!nodeToReplace->leftChild->isNil()) // TODO: Nil check useful?
 				nodeToReplace->leftChild->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
