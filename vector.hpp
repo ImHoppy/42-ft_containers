@@ -59,16 +59,30 @@ namespace ft
 			for (; first != last; ++first)
 				push_back(*first);
 		};
+	private:
+		template<class InputIterator, class ForwardIterator>
+		inline ForwardIterator _uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, std::allocator<T>)
+		{
+			return std::uninitialized_copy(first, last, result);
+		};
+
+		template<class InputIterator, class ForwardIterator, class AllocTraits>
+		inline ForwardIterator _uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, AllocTraits &alloc)
+		{
+			for (; first != last; ++first, (void)++result)
+				alloc.construct(result, *first);
+			return result;
+		};
+	public:
 		// Copy constructor
 		vector(const vector &x)
 			: _allocator(x._allocator), _start(u_nullptr), _finish(u_nullptr), _end_storage(u_nullptr)
 		{
-			_start = _allocator.allocate(x.size());
-			_finish = _start;
-			_end_storage = _finish + x.size();
+			size_type n = x.size();
+			_start = _allocator.allocate(n);
+			_end_storage = _start + n;
 
-			for (size_type i = 0; i < x.size(); ++i, (void)++_finish)
-				_allocator.construct(_finish, x[i]);
+			_finish = _uninitialized_copy(x.begin(), x.end(), _start, _allocator);
 		};
 		~vector()
 		{
