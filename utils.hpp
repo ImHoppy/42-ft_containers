@@ -119,7 +119,7 @@ namespace ft
 	{
 		while (first1 != last1)
 		{
-			if (!(*first1 == *first2)) // or: if (!pred(*first1,*first2)), for version 2
+			if (!(*first1 == *first2))
 				return false;
 			++first1;
 			++first2;
