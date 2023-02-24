@@ -5,7 +5,7 @@ OBJECTS		= $(SOURCES:.cpp=.o)
 DEPS		= $(OBJECTS:.o=.d)
 
 CXX			= c++
-CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I.  -std=c++98
+CXXFLAGS	= -Wall -Wextra -Werror -MMD -MP -I. -std=c++98
 
 
 $(NAME): $(OBJECTS)
@@ -16,6 +16,7 @@ all: $(NAME)
 	$(MAKE) clean FT=1 --silent --directory=test_containers
 	$(MAKE) STD=1 --directory=test_containers
 	$(MAKE) clean STD=1 --silent --directory=test_containers
+	$(CXX) $(CXXFLAGS) ./time.cpp -o time_test
 
 clean:
 	rm -rf $(OBJECTS)
@@ -26,6 +27,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	rm -rf $(DEPS)
+	rm -f time_test
 
 re: fclean
 	$(MAKE) all

@@ -37,3 +37,4 @@ test/test_containers/*_containers
 test/ft_containers_tester
 containers_test/
 ft_containers_monkey_tester/
+test/time_test
