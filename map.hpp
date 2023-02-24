@@ -321,11 +321,6 @@ namespace ft
 			lhs.swap(rhs);
 		}
 
-		// void printTree(std::string file = "tree_visualisation.mmd") const
-		// {
-		// 	_rbTree.printTree(file);
-		// }
-
 	private:
 		tree_type _rbTree;
 		key_compare _compare;

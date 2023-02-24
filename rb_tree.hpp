@@ -269,20 +269,6 @@ namespace ft
 		{
 			return _root->getMax();
 		}
-		// void printTree(std::string file = "tree_visualisation.mmd") const
-		// {
-		// 	std::ofstream myfile;
-
-		// 	myfile.open(file.c_str(), std::ios::out);
-		// 	myfile << "flowchart TD" << std::endl;
-		// 	myfile << "classDef RED fill:#FF0000,color:#FFFFFF;" << std::endl;
-		// 	myfile << "classDef BLACK fill:#000000,color:#FFFFFF;" << std::endl;
-		// 	if (_root)
-		// 		traverseTree(this->_root, myfile);
-		// 	else
-		// 		myfile << "Empty tree" << std::endl;
-		// 	myfile.close();
-		// }
 		void swap(rb_tree &other)
 		{
 			node *tmp_root = other._root;
@@ -523,24 +509,5 @@ namespace ft
 		{
 			return !_compare(key1, key2) && !_compare(key2, key1);
 		}
-		// void traverseTree(node *node, std::ofstream &file) const
-		// {
-		// 	file << node << "(" << node->getValue() << " - " << node->getMapped()
-		// 		 << ")" << std::endl;
-		// 	file << "class " << node << " " << (node->color == RED ? "RED" : "BLACK") << ";"
-		// 		 << std::endl;
-		// 	if (!node->parent->isNil())
-		// 		file << node << "-->" << node->parent << std::endl;
-		// 	if (!node->leftChild->isNil())
-		// 	{
-		// 		file << node << "-.->" << node->leftChild << std::endl;
-		// 		traverseTree(node->leftChild, file);
-		// 	}
-		// 	if (!node->rightChild->isNil())
-		// 	{
-		// 		file << node << "==>" << node->rightChild << std::endl;
-		// 		traverseTree(node->rightChild, file);
-		// 	}
-		// }
 	};
 }
