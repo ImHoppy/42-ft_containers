@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <sys/time.h>
 #include "color.hpp"
-
+#include <stdlib.h>
 
 struct TestUnit {
 	bool	on;
@@ -152,9 +152,15 @@ int main(int ac, char** av)
 
 	fg::type resultColor = (test.all.count == test.all.countTotal ? fg::green : fg::red);
 	std::cout << resultColor << test.all.count 
-		<< "/" << resultColor << test.all.countTotal << std::endl;
+		<< "/" << resultColor << test.all.countTotal << style::reset << std::endl;
 
 	pclose(stream1);
 	pclose(stream2);
+
+
+	// Speed time test
+
+	system("./time_test");
+
 	return 0;
 }
