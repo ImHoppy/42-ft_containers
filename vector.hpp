@@ -42,6 +42,10 @@ namespace ft
 						const allocator_type &alloc = allocator_type())
 			: _allocator(alloc), _start(u_nullptr), _finish(u_nullptr), _end_storage(u_nullptr)
 		{
+			if (n == 0)
+				return;
+			if (n >= max_size())
+				throw std::length_error("vector::fill_constructor");
 			_start = _allocator.allocate(n);
 			_finish = _start;
 			_end_storage = _finish + n;
@@ -89,14 +93,16 @@ namespace ft
 		~vector()
 		{
 			clear();
-			_allocator.deallocate(_start, capacity());
+			if (_start)
+				_allocator.deallocate(_start, capacity());
 		};
 		vector &operator=(const vector &x)
 		{
 			if (this == &x)
 				return *this;
 			clear();
-			_allocator.deallocate(_start, capacity());
+			if (_start)
+				_allocator.deallocate(_start, capacity());
 			_start = _allocator.allocate(x.size());
 			_finish = _start;
 			_end_storage = _finish + x.size();
@@ -188,7 +194,8 @@ namespace ft
 						_allocator.destroy(_start + i);
 					}
 				}
-				_allocator.deallocate(_start, capacity());
+				if (_start)
+					_allocator.deallocate(_start, capacity());
 				size_type old_size = size();
 				_start = newStart;
 				_finish = _start + old_size;
@@ -300,7 +307,7 @@ namespace ft
 			}
 			else
 			{
-				vector<value_type> tmp;
+				vector<value_type, allocator_type> tmp;
 
 				tmp.reserve(size());
 				for (iterator it = begin(); it != position; ++it)
@@ -350,7 +357,7 @@ namespace ft
 			}
 			else
 			{
-				vector<value_type> tmp;
+				vector<value_type, allocator_type> tmp;
 				tmp.reserve(size() + n);
 				for (iterator it = begin(); it != position; ++it)
 					tmp.push_back(*it);
@@ -371,7 +378,7 @@ namespace ft
 			if (n > this->max_size())
 				throw(std::length_error("vector::insert (fill)"));
 
-			vector<value_type> tmp;
+			vector<value_type, allocator_type> tmp;
 			if (size_type(_end_storage - _finish) >= n)
 				tmp.reserve(capacity());
 			else
@@ -441,12 +448,7 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator==(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
 	{
-		if (lhs.size() != rhs.size())
-			return false;
-		for (size_t i = 0; i < lhs.size(); i++)
-			if (lhs[i] != rhs[i])
-				return false;
-		return true;
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 	template <class T, class Alloc>
 	bool operator!=(const vector<T, Alloc> &lhs, const vector<T, Alloc> &rhs)
