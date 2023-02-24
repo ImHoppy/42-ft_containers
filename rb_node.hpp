@@ -16,11 +16,24 @@ namespace ft
 		typedef T value_type;
 		typedef size_t size_type;
 
-		rb_node(void) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
+	public:
+		rb_node *parent;
+		rb_node *rightChild;
+		rb_node *leftChild;
+		Color color;
+		value_type value;
+
+		rb_node(void)
+			: parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED)
 		{
 			value = value_type();
 		}
-		rb_node(const value_type &value) : parent(u_nullptr), rightChild(u_nullptr), leftChild(u_nullptr), color(RED), value(value)
+		rb_node(const value_type &value,
+				rb_node *parent = u_nullptr,
+				rb_node *right = u_nullptr,
+				rb_node *left = u_nullptr,
+				Color c = RED)
+			: parent(parent), rightChild(right), leftChild(left), color(c), value(value)
 		{
 			return;
 		}
@@ -31,10 +44,14 @@ namespace ft
 
 		rb_node &operator=(const rb_node &other)
 		{
+			if (this == &other)
+				return *this;
 			this->parent = other.parent;
 			this->rightChild = other.rightChild;
 			this->leftChild = other.leftChild;
 			this->color = other.color;
+			this->value = other.value;
+			return *this;
 		}
 
 		bool isNil(void) const
@@ -158,13 +175,6 @@ namespace ft
 			}
 			return tmp;
 		}
-
-	public:
-		rb_node *parent;
-		rb_node *rightChild;
-		rb_node *leftChild;
-		Color color;
-		value_type value;
 	};
 
 }

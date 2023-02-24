@@ -117,14 +117,14 @@ namespace ft
 			eraseNode(nodeToDelete);
 			return 1;
 		}
-		void eraseNode(node *nodeToDelete)
+		size_type eraseNode(node *nodeToDelete)
 		{
 			node *nodeToFixup = nil;
 			node *nodeToReplace = nodeToDelete;
 			Color nodeToReplaceOriginalColor = nodeToReplace->color;
 
 			if (nodeToDelete->isNil())
-				return;
+				return 0;
 			if (nodeToDelete->leftChild->isNil())
 			{
 				nodeToFixup = nodeToDelete->rightChild;
@@ -155,10 +155,11 @@ namespace ft
 					nodeToReplace->leftChild->parent = nodeToReplace;
 				nodeToReplace->color = nodeToDelete->color;
 			}
+			_deleteNode(nodeToDelete);
+			--_size;
 			if (nodeToReplaceOriginalColor == BLACK)
 				_deleteFixup(nodeToFixup);
-			--_size;
-			_deleteNode(nodeToDelete);
+			return 1;
 		}
 		node *findNode(const value_type &key)
 		{
@@ -344,27 +345,26 @@ namespace ft
 			if (!newNode->isNil())
 				newNode->parent = oldNode->parent;
 		}
-		void _deleteFixup(node *x)
+		void _deleteFixup(node *fixNode)
 		{
 			node *save = nil;
-			if (x->isNil())
-				return;
-			while (x != _root && x->color == BLACK)
+
+			while (fixNode != _root && fixNode->color == BLACK)
 			{
-				if (x == x->parent->leftChild)
+				if (fixNode == fixNode->parent->leftChild)
 				{
-					save = x->parent->rightChild;
+					save = fixNode->parent->rightChild;
 					if (save->color == RED)
 					{
 						save->color = BLACK;
-						x->parent->color = RED;
-						rotateLeft(x->parent);
-						save = x->parent->rightChild;
+						fixNode->parent->color = RED;
+						rotateLeft(fixNode->parent);
+						save = fixNode->parent->rightChild;
 					}
 					if (save->leftChild->color == BLACK && save->rightChild->color == BLACK)
 					{
 						save->color = RED;
-						x = x->parent;
+						fixNode = fixNode->parent;
 					}
 					else
 					{
@@ -373,29 +373,29 @@ namespace ft
 							save->leftChild->color = BLACK;
 							save->color = RED;
 							rotateRight(save);
-							save = x->parent->rightChild;
+							save = fixNode->parent->rightChild;
 						}
-						save->color = x->parent->color;
-						x->parent->color = BLACK;
+						save->color = fixNode->parent->color;
+						fixNode->parent->color = BLACK;
 						save->rightChild->color = BLACK;
-						rotateLeft(x->parent);
-						x = _root;
+						rotateLeft(fixNode->parent);
+						fixNode = _root;
 					}
 				}
 				else
 				{
-					save = x->parent->leftChild;
+					save = fixNode->parent->leftChild;
 					if (save->color == RED)
 					{
 						save->color = BLACK;
-						x->parent->color = RED;
-						rotateRight(x->parent);
-						save = x->parent->leftChild;
+						fixNode->parent->color = RED;
+						rotateRight(fixNode->parent);
+						save = fixNode->parent->leftChild;
 					}
 					if (save->rightChild->color == BLACK && save->leftChild->color == BLACK)
 					{
 						save->color = RED;
-						x = x->parent;
+						fixNode = fixNode->parent;
 					}
 					else
 					{
@@ -404,17 +404,17 @@ namespace ft
 							save->rightChild->color = BLACK;
 							save->color = RED;
 							rotateLeft(save);
-							save = x->parent->leftChild;
+							save = fixNode->parent->leftChild;
 						}
-						save->color = x->parent->color;
-						x->parent->color = BLACK;
+						save->color = fixNode->parent->color;
+						fixNode->parent->color = BLACK;
 						save->leftChild->color = BLACK;
-						rotateRight(x->parent);
-						x = _root;
+						rotateRight(fixNode->parent);
+						fixNode = _root;
 					}
 				}
 			}
-			x->color = BLACK;
+			fixNode->color = BLACK;
 		}
 		void _clearNodes(node *nodeToDelete)
 		{
@@ -434,7 +434,8 @@ namespace ft
 				hinge->leftChild = movedNode->rightChild;
 			if (!movedNode->getChild(side)->isNil())
 				movedNode->getChild(side)->parent = hinge;
-			movedNode->parent = hinge->parent;
+			if (!movedNode->isNil())
+				movedNode->parent = hinge->parent;
 			if (hinge->parent->isNil())
 				_root = movedNode;
 			else if (hinge->isALeftChild())
@@ -445,7 +446,8 @@ namespace ft
 				movedNode->leftChild = hinge;
 			else
 				movedNode->rightChild = hinge;
-			hinge->parent = movedNode;
+			if (!hinge->isNil())
+				hinge->parent = movedNode;
 		}
 		node *_getInsertionParent(const value_type &insertValue)
 		{

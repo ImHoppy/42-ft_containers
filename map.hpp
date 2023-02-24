@@ -89,7 +89,9 @@ namespace ft
 			{
 				clear();
 				if (other.size() > 0)
+				{
 					this->insert(other.begin(), other.end());
+				}
 			}
 			return *this;
 		}
