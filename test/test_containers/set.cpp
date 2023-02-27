@@ -13,7 +13,6 @@ template <typename M>
 void	printSize(M const &mp, bool print_content = 1)
 {
 	std::cout << "size: " << mp.size() << std::endl;
-	std::cout << "max_size: " << mp.max_size() << std::endl;
 	if (print_content)
 	{
 		typename M::const_iterator it = mp.begin(), ite = mp.end();
@@ -79,7 +78,7 @@ typename T::iterator get_itn(T &c, int r)
 }
 
 template <typename T>
-void test_operator(T c1, T c2) 
+void test_operator(T c1, T c2)
 {
 	std::cout << "c1 == c2: " << (c1 == c2) << "\t";
 	std::cout << "c1 != c2: " << (c1 != c2) << "\t";
@@ -193,7 +192,7 @@ void set_main() {
 
 		m2.insert(5);
 		test_operator(m1, m2);
-		
+
 		m2.insert(4);
 		test_operator(m1, m2);
 

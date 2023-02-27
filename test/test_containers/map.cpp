@@ -89,7 +89,7 @@ typename T::iterator get_itn(T &c, int r)
 }
 
 template <typename T>
-void test_operator(T c1, T c2) 
+void test_operator(T c1, T c2)
 {
 	std::cout << "c1 == c2: " << (c1 == c2) << "\t";
 	std::cout << "c1 != c2: " << (c1 != c2) << "\t";
@@ -203,7 +203,7 @@ void map_main() {
 
 		m2[5] = 5;
 		test_operator(m1, m2);
-		
+
 		m2[4] = 5;
 		test_operator(m1, m2);
 
